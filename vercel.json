@@ -1,5 +1,6 @@
 {
   "version": 2,
+  "name": "theuxdev",
   "builds": [
     {
       "src": "*.html",
