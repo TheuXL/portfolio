@@ -501,17 +501,104 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
 }); // End DOMContentLoaded
+    // --- Certificate Group Modal ---
+    const certificateGroupModal = document.getElementById('certificate-group-modal');
+    const closeCertificateModalButton = document.getElementById('close-certificate-modal');
+    const certificateModalTitle = document.getElementById('certificate-modal-title');
+    const modalCertificateList = document.getElementById('modal-certificate-list');
+    const certificateGroupCards = document.querySelectorAll('.certificate-card[data-modal-group]');
 
-// --- Add CSS for animations (in style.css) ---
-/*
-.animate-hidden {
-    opacity: 0;
-    transform: translateY(30px);
-    transition: opacity 0.6s ease-out, transform 0.6s ease-out;
-}
+    // Dados dos grupos de certificados
+    const certificateGroups = {
+        'python-group': {
+            title: 'Certificados Python',
+            certificates: [
+                { name: 'Estruturas de Dados em Python', path: 'certificados/CERTIFICADO PYTHON 2024.1/ESTRUTURAS DE DADOS EM PYTHON.pdf' },
+                { name: 'Introdução à Análise de Dados com Python', path: 'certificados/CERTIFICADO PYTHON 2024.1/INTRODUÇÃO À ANÁLISE DE DADOS COM PYTHON.pdf' },
+                { name: 'Introdução à Linguagem Python', path: 'certificados/CERTIFICADO PYTHON 2024.1/INTRODUÇÃO À LINGUAGEM PYTHON.pdf' }
+                // Adicione aqui os paths da pasta duplicada se forem diferentes, mas parece que são os mesmos
+            ]
+        },
+        'negocios-group': {
+            title: 'Certificados Negócios Internacionais',
+            certificates: [
+                { name: 'Negócios Internacionais', path: 'certificados/NEGOCÍOS INTERNACIONAIS 2024.1/CERTIFICADO NEGÓCIOS INTERNACIONAIS.pdf' },
+                { name: 'Planejamento e Desenvolvimento de Negócios Internacionais', path: 'certificados/NEGOCÍOS INTERNACIONAIS 2024.1/CERTIFICADO PLANEJAMENTO E DESENVOLVIMENTO DE NEGÓCIOS INTERNACIONAIS.pdf' },
+                { name: 'Planejamento Estratégico (em Neg. Internacionais)', path: 'certificados/NEGOCÍOS INTERNACIONAIS 2024.1/CERTIFICADO PLANEJAMENTO ESTRATEGICO.pdf' }
+            ]
+        }
+        // Adicione mais grupos aqui se necessário
+    };
 
-.animate-visible {
-    opacity: 1;
-    transform: translateY(0);
-}
-*/
+    // Função para abrir o modal do grupo de certificados
+    function openCertificateGroupModal(groupKey) {
+        const groupData = certificateGroups[groupKey];
+        if (!groupData || !certificateGroupModal) return; // Sai se não encontrar dados ou o modal
+
+        certificateModalTitle.textContent = groupData.title;
+        modalCertificateList.innerHTML = ''; // Limpa a lista anterior
+
+        groupData.certificates.forEach(cert => {
+            const li = document.createElement('li');
+            const a = document.createElement('a');
+            a.href = cert.path;
+            a.target = '_blank'; // Abrir em nova aba
+            a.innerHTML = `<i class="fas fa-file-pdf"></i> ${cert.name}`; // Adiciona ícone e nome
+            li.appendChild(a);
+            modalCertificateList.appendChild(li);
+        });
+
+        certificateGroupModal.style.display = 'block';
+    }
+
+    // Função para fechar o modal do grupo de certificados
+    function closeCertificateGroupModal() {
+        if (certificateGroupModal) {
+            certificateGroupModal.style.display = 'none';
+        }
+    }
+
+    // Adiciona evento de clique aos cards de grupo
+    certificateGroupCards.forEach(card => {
+        card.addEventListener('click', () => {
+            const groupKey = card.getAttribute('data-modal-group');
+            openCertificateGroupModal(groupKey);
+        });
+    });
+
+    // Adiciona evento de clique ao botão de fechar do modal de certificados
+    if (closeCertificateModalButton) {
+        closeCertificateModalButton.addEventListener('click', closeCertificateGroupModal);
+    }
+
+    // Fecha o modal de certificados se clicar fora dele (reutiliza a lógica do modal de projetos)
+    window.addEventListener('click', (event) => {
+        if (event.target == certificateGroupModal) {
+            closeCertificateGroupModal();
+        }
+        // Mantém a lógica para fechar outros modais se necessário
+        if (event.target == modal) { // 'modal' é a variável do modal de projetos
+             closeModal(); // 'closeModal' é a função do modal de projetos
+        }
+         if (event.target == emailModal) { // 'emailModal' é a variável do modal de email
+             emailModal.style.display = 'none';
+             // Limpa mensagens de status ao fechar
+             emailStatus.textContent = '';
+             emailStatus.className = '';
+         }
+    });
+
+     // Opcional: Fechar modal de certificados com a tecla 'Escape'
+     window.addEventListener('keydown', (event) => {
+         if (event.key === 'Escape') {
+             if (certificateGroupModal && certificateGroupModal.style.display === 'block') {
+                 closeCertificateGroupModal();
+             }
+             // Mantém a lógica para fechar outros modais
+             if (modal && modal.style.display === 'block') { // 'modal' é a variável do modal de projetos
+                 closeModal(); // 'closeModal' é a função do modal de projetos
+             }
+         }
+     });
+
+    // --- FIM Certificate Group Modal ---
