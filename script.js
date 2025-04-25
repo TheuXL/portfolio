@@ -1,4 +1,33 @@
+// --- Modal Elements ---
+let modal, modalTitle, modalImage, modalDescription, modalStack, modalHighlights, modalRepoLink, modalLiveLink, closeModalButton, projectCards;
+
 document.addEventListener('DOMContentLoaded', () => {
+    console.log('DOM Content Loaded');
+    
+    // Initialize modal elements
+    modal = document.getElementById('project-modal');
+    modalTitle = document.getElementById('modal-title');
+    modalImage = document.getElementById('modal-image');
+    modalDescription = document.getElementById('modal-description');
+    modalStack = document.getElementById('modal-stack');
+    modalHighlights = document.getElementById('modal-highlights');
+    modalRepoLink = document.getElementById('modal-repo-link');
+    modalLiveLink = document.getElementById('modal-live-link');
+    closeModalButton = document.querySelector('.close-button');
+    projectCards = document.querySelectorAll('.project-card');
+
+    console.log('Modal elements:', {
+        modal: modal,
+        modalTitle: modalTitle,
+        modalImage: modalImage,
+        modalDescription: modalDescription,
+        modalStack: modalStack,
+        modalHighlights: modalHighlights,
+        modalRepoLink: modalRepoLink,
+        modalLiveLink: modalLiveLink,
+        closeModalButton: closeModalButton,
+        projectCards: projectCards
+    });
 
     // --- Theme Switcher ---
     const themeSwitcher = document.getElementById('theme-switcher');
@@ -226,25 +255,17 @@ document.addEventListener('DOMContentLoaded', () => {
         // Add data for other projects...
     };
 
-    // --- Modal Elements ---
-    const modal = document.getElementById('project-modal');
-    const modalTitle = document.getElementById('modal-title');
-    const modalImage = document.getElementById('modal-image');
-    const modalDescription = document.getElementById('modal-description');
-    const modalStack = document.getElementById('modal-stack');
-    const modalHighlights = document.getElementById('modal-highlights');
-    const modalRepoLink = document.getElementById('modal-repo-link');
-    const modalLiveLink = document.getElementById('modal-live-link');
-    const closeModalButton = document.querySelector('.close-button');
-    const projectCards = document.querySelectorAll('.project-card');
-
     // --- Function to Open Modal ---
     function openModal(projectKey) {
+        console.log('Opening modal for project:', projectKey);
         const data = projectData[projectKey];
-        if (!data) return; // Exit if data not found
+        if (!data) {
+            console.error('No data found for project:', projectKey);
+            return;
+        }
 
         modalTitle.textContent = data.title;
-        modalImage.src = data.image || 'images/placeholder.png'; // Use placeholder if no image
+        modalImage.src = data.image || 'images/placeholder.png';
         modalImage.alt = data.title + " image";
         modalDescription.textContent = data.description;
         modalStack.textContent = data.stack;
@@ -257,7 +278,7 @@ document.addEventListener('DOMContentLoaded', () => {
             modalHighlights.appendChild(li);
         });
 
-        // Update links (hide if no link provided)
+        // Update links
         if (data.repoLink && data.repoLink !== '#') {
             modalRepoLink.href = data.repoLink;
             modalRepoLink.style.display = 'inline-block';
@@ -265,15 +286,15 @@ document.addEventListener('DOMContentLoaded', () => {
             modalRepoLink.style.display = 'none';
         }
 
-         if (data.liveLink && data.liveLink !== '#') {
+        if (data.liveLink && data.liveLink !== '#') {
             modalLiveLink.href = data.liveLink;
             modalLiveLink.style.display = 'inline-block';
         } else {
             modalLiveLink.style.display = 'none';
         }
 
-
         modal.style.display = 'block';
+        console.log('Modal opened successfully');
     }
 
     // --- Function to Close Modal ---
@@ -285,6 +306,7 @@ document.addEventListener('DOMContentLoaded', () => {
     projectCards.forEach(card => {
         card.addEventListener('click', () => {
             const projectKey = card.getAttribute('data-project');
+            console.log('Project card clicked:', projectKey);
             openModal(projectKey);
         });
     });

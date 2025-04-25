@@ -344,18 +344,30 @@ header nav ul li a:hover {
     border-radius: 8px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
     overflow: hidden;
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    transition: all 0.3s ease;
     cursor: pointer;
     display: flex;
     flex-direction: column;
     border: 1px solid var(--card-border);
     height: 100%;
+    position: relative;
+}
+
+.project-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 16px rgba(30, 79, 255, 0.3);
+    border-color: var(--primary-color);
 }
 
 .project-card img {
     width: 100%;
-    height: 180px; /* Fixed height for consistency */
-    object-fit: cover; /* Crop images nicely */
+    height: 180px;
+    object-fit: cover;
+    transition: transform 0.3s ease;
+}
+
+.project-card:hover img {
+    transform: scale(1.05);
 }
 
 .project-card h3 {
@@ -366,28 +378,49 @@ header nav ul li a:hover {
 
 .project-card p {
     margin: 0 12px 12px 12px;
-    flex-grow: 1; /* Makes description take available space */
+    flex-grow: 1;
     font-size: 0.95rem;
     color: var(--text-color);
 }
+
 .project-card .view-details {
     display: block;
     text-align: center;
-    padding: 10px;
+    padding: 12px;
     background-color: var(--primary-color);
     color: var(--white-color);
-    font-weight: bold;
-    margin-top: auto; /* Pushes to the bottom */
-    transition: background-color 0.3s ease;
-}
-.project-card .view-details:hover {
-     background-color: var(--secondary-color);
+    font-weight: 500;
+    margin-top: auto;
+    transition: all 0.3s ease;
+    text-transform: uppercase;
+    font-size: 0.9rem;
+    letter-spacing: 0.5px;
+    position: relative;
+    overflow: hidden;
 }
 
-.project-card:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 8px 16px rgba(30, 79, 255, 0.3);
-    border-color: var(--primary-color);
+.project-card .view-details::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(
+        90deg,
+        transparent,
+        rgba(255, 255, 255, 0.2),
+        transparent
+    );
+    transition: 0.5s;
+}
+
+.project-card:hover .view-details::before {
+    left: 100%;
+}
+
+.project-card .view-details:hover {
+    background-color: var(--secondary-color);
 }
 
 /* Contact Section */
@@ -420,59 +453,158 @@ header nav ul li a:hover {
 
 /* Modal Styles */
 .modal {
-    display: none; /* Hidden by default */
+    display: none;
     position: fixed;
-    z-index: 2000; /* Above everything */
+    z-index: 2000;
     left: 0;
     top: 0;
     width: 100%;
     height: 100%;
-    overflow: auto; /* Enable scroll if needed */
-    background-color: var(--modal-bg); /* Black w/ opacity */
+    overflow: auto;
+    background-color: rgba(0, 0, 0, 0.85);
+    backdrop-filter: blur(5px);
 }
 
 .modal-content {
     background-color: var(--bg-color);
-    margin: 10% auto; /* Centered */
+    margin: 5% auto;
     padding: 30px;
     border: 1px solid var(--primary-color);
-    width: 80%; /* Could be more adaptive */
-    max-width: 700px;
+    width: 90%;
+    max-width: 800px;
     border-radius: 8px;
     position: relative;
-    animation: fadeIn 0.5s; /* Simple fade-in */
-    color: var(--text-color);
+    animation: fadeIn 0.3s;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
 }
 
 .close-button {
-    color: var(--primary-color);
     position: absolute;
-    top: 10px;
     right: 20px;
+    top: 15px;
+    color: var(--primary-color);
     font-size: 28px;
     font-weight: bold;
     cursor: pointer;
+    transition: all 0.3s ease;
+    z-index: 1;
 }
 
-.close-button:hover,
-.close-button:focus {
+.close-button:hover {
     color: var(--accent-color);
+    transform: scale(1.1);
+}
+
+#modal-image {
+    width: 100%;
+    max-height: 400px;
+    object-fit: cover;
+    border-radius: 4px;
+    margin-bottom: 20px;
+}
+
+#modal-title {
+    color: var(--light-color);
+    font-size: 1.8rem;
+    margin-bottom: 15px;
+    padding-right: 40px;
+}
+
+#modal-description {
+    color: var(--text-color);
+    margin-bottom: 20px;
+    line-height: 1.6;
+}
+
+#modal-stack {
+    color: var(--primary-color);
+    font-weight: 500;
+    margin-bottom: 20px;
+    padding: 10px;
+    background-color: rgba(30, 79, 255, 0.1);
+    border-radius: 4px;
 }
 
 #modal-highlights {
-    list-style: disc;
-    margin-left: 20px;
+    list-style: none;
+    padding: 0;
+    margin: 0 0 20px 0;
 }
+
 #modal-highlights li {
-    margin-bottom: 5px;
+    color: var(--text-color);
+    margin-bottom: 10px;
+    padding-left: 20px;
+    position: relative;
 }
+
+#modal-highlights li::before {
+    content: "•";
+    color: var(--primary-color);
+    position: absolute;
+    left: 0;
+}
+
 .modal-links {
-     margin-top: 20px;
+    display: flex;
+    gap: 15px;
+    margin-top: 25px;
+}
+
+.modal-links a {
+    flex: 1;
+    text-align: center;
+    padding: 12px 20px;
+    border-radius: 5px;
+    transition: all 0.3s ease;
+    font-weight: 500;
 }
 
 @keyframes fadeIn {
-    from {opacity: 0;}
-    to {opacity: 1;}
+    from {
+        opacity: 0;
+        transform: translateY(-20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Responsive adjustments for modal */
+@media (max-width: 768px) {
+    .modal-content {
+        margin: 10% auto;
+        width: 95%;
+        padding: 20px;
+    }
+
+    #modal-title {
+        font-size: 1.5rem;
+    }
+
+    .modal-links {
+        flex-direction: column;
+    }
+
+    #modal-image {
+        max-height: 300px;
+    }
+}
+
+@media (max-width: 480px) {
+    .modal-content {
+        margin: 15% auto;
+        padding: 15px;
+    }
+
+    #modal-title {
+        font-size: 1.3rem;
+    }
+
+    #modal-image {
+        max-height: 200px;
+    }
 }
 
 /* Footer */
@@ -1479,5 +1611,178 @@ section h2 {
     
     .profile-objective h4 {
         justify-content: center;
+    }
+}
+
+/* Certificates Section */
+#certificates {
+    padding: 4rem 2rem;
+}
+
+#certificates h2 {
+    text-align: center;
+    margin-bottom: 0.5rem;
+}
+
+#certificates > p {
+    text-align: center;
+    color: var(--text-secondary);
+    margin-bottom: 3rem;
+}
+
+.certificates-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 2rem;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.certificate-category {
+    background: var(--bg-secondary);
+    border-radius: 10px;
+    padding: 1.5rem;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease;
+}
+
+.certificate-category:hover {
+    transform: translateY(-5px);
+}
+
+.certificate-category h3 {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    color: var(--primary-color);
+    margin-bottom: 1.5rem;
+    font-size: 1.2rem;
+}
+
+.certificate-category h3 i {
+    font-size: 1.4rem;
+}
+
+.certificate-category > ul {
+    list-style: none;
+    padding: 0;
+}
+
+.certificate-category > ul > li {
+    display: flex;
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+}
+
+.certificate-category > ul > li:last-child {
+    margin-bottom: 0;
+}
+
+.certificate-category > ul > li > i {
+    font-size: 1.5rem;
+    color: var(--primary-color);
+    opacity: 0.8;
+}
+
+.cert-info {
+    flex: 1;
+}
+
+.cert-info h4 {
+    color: var(--text-primary);
+    margin-bottom: 0.5rem;
+    font-size: 1.1rem;
+}
+
+.cert-info ul {
+    list-style: none;
+    padding: 0;
+}
+
+.cert-info ul li {
+    color: var(--text-secondary);
+    font-size: 0.95rem;
+    margin-bottom: 0.3rem;
+    padding-left: 1rem;
+    position: relative;
+}
+
+.cert-info ul li::before {
+    content: "•";
+    position: absolute;
+    left: 0;
+    color: var(--primary-color);
+}
+
+/* Certificate Links Styles */
+.cert-info ul li a {
+    color: var(--text-secondary);
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    transition: all 0.3s ease;
+    padding: 5px 0;
+}
+
+.cert-info ul li a:hover {
+    color: var(--primary-color);
+    transform: translateX(5px);
+}
+
+.cert-info ul li a i {
+    font-size: 0.9rem;
+    opacity: 0.7;
+    margin-left: 8px;
+}
+
+.cert-info ul li a:hover i {
+    opacity: 1;
+    transform: scale(1.1);
+}
+
+/* Ajuste do padding para os itens da lista de certificados */
+.cert-info ul li {
+    padding-left: 0;
+    margin-bottom: 8px;
+}
+
+.cert-info ul li::before {
+    display: none;
+}
+
+/* Efeito de hover no card do certificado */
+.certificate-category:hover .cert-info ul li a {
+    color: var(--text-color);
+}
+
+/* Responsividade para os links dos certificados */
+@media (max-width: 768px) {
+    .certificates-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .certificate-category {
+        padding: 1.2rem;
+    }
+
+    .certificate-category h3 {
+        font-size: 1.1rem;
+    }
+
+    .cert-info h4 {
+        font-size: 1rem;
+    }
+
+    .cert-info ul li {
+        font-size: 0.9rem;
+    }
+
+    .cert-info ul li a {
+        font-size: 0.9rem;
+    }
+    
+    .cert-info ul li {
+        margin-bottom: 10px;
     }
 }
