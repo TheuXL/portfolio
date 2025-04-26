@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="pt-BR" data-theme="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Desenho e Anotações com Gestos: Transformando a Interação com a Tela - TheuxDev Blog</title>
+    <link rel="stylesheet" href="../../estilo.css">
+    <link rel="stylesheet" href="../blog.css">
+    <link rel="stylesheet" href="post.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <header>
+        <nav>
+            <div class="logo">TheuxDev Blog</div>
+            <ul>
+                <li><a href="../../index.html">Portfolio</a></li>
+                <li><a href="../index.html">Blog</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main class="post-container">
+        <article class="blog-post">
+            <header class="post-header">
+                <div class="post-meta">
+                    <span class="post-category">Visão Computacional</span>
+                    <span class="post-date">15 Abril, 2024</span>
+                    <span class="reading-time">
+                        <i class="fas fa-clock"></i>
+                        8 min de leitura
+                    </span>
+                </div>
+                <h1>Desenho e Anotações com Gestos: Transformando a Interação com a Tela em Tempo Real</h1>
+            </header>
+
+            <div class="post-media">
+                <video controls poster="../imagens/thumb-desenho-gestos.jpg">
+                    <source src="../video/Gravando 2025-04-15 dedo desenho 2 principal.mp4" type="video/mp4">
+                    Seu navegador não suporta o elemento de vídeo.
+                </video>
+            </div>
+
+            <div class="post-content">
+                <!-- Table of Contents -->
+                <div class="table-of-contents">
+                    <h4><i class="fas fa-list"></i> Índice</h4>
+                    <ul>
+                        <li><a href="#introducao">Introdução</a></li>
+                        <li><a href="#funcionamento">Como Funciona</a></li>
+                        <li><a href="#tecnologias">Tecnologias Utilizadas</a></li>
+                        <li><a href="#impacto">O Impacto da Visão Computacional</a></li>
+                        <li><a href="#conclusao">Conclusão</a></li>
+                    </ul>
+                </div>
+
+                <div id="introducao" class="highlight-box">
+                    <h4>Sobre o Projeto</h4>
+                    <p>Imagine anotar ou apagar diretamente sobre a sua tela, em uma videochamada ou apresentação, apenas usando movimentos da sua mão — sem mouse, sem caneta, sem toque. Foi exatamente essa experiência que explorei no meu novo projeto de interação gestual baseada em visão computacional.</p>
+                </div>
+
+                <h2 id="funcionamento">Como Funciona?</h2>
+                <p>O sistema utiliza a combinação de ferramentas de captura de tela, detecção de gestos e processamento de imagem para permitir o desenho em tempo real apenas com movimentos da mão:</p>
+                
+                <div class="highlight-box">
+                    <ul>
+                        <li><strong>PyAutoGUI</strong> captura imagens da tela continuamente.</li>
+                        <li><strong>MediaPipe Hands</strong> detecta a presença da mão e mapeia 21 pontos-chave (landmarks) em cada frame.</li>
+                        <li><strong>Reconhecimento de Gestos:</strong> Um gesto de "mão fechada" ativa o sistema, garantindo que o desenho só ocorra quando intencional.</li>
+                        <li><strong>Cursor com o Dedo Indicador:</strong> A posição do dedo indicador é suavizada e usada como um cursor virtual.</li>
+                    </ul>
+                </div>
+
+                <h3><i class="fas fa-pencil-alt"></i> Ferramentas de Lápis e Borracha</h3>
+                <ul>
+                    <li>O OpenCV desenha traços sobre uma camada separada para o lápis.</li>
+                    <li>Para a borracha, modifica-se uma máscara, apagando traços e revelando o fundo original.</li>
+                    <li>Botões Virtuais na tela permitem alternar entre ferramentas sem necessidade de cliques físicos.</li>
+                </ul>
+
+                <h2 id="tecnologias">Tecnologias Utilizadas</h2>
+                <ul class="tech-list">
+                    <li>
+                        <strong>Python</strong>
+                        Linguagem de base para toda a lógica e integração das ferramentas.
+                    </li>
+                    <li>
+                        <strong>OpenCV</strong>
+                        Para manipulação das imagens e desenho em camadas.
+                    </li>
+                    <li>
+                        <strong>MediaPipe</strong>
+                        Detecção robusta das mãos e landmarks.
+                    </li>
+                    <li>
+                        <strong>PyAutoGUI</strong>
+                        Captura contínua da tela.
+                    </li>
+                    <li>
+                        <strong>NumPy</strong>
+                        Acelerando operações de processamento de imagem.
+                    </li>
+                </ul>
+
+                <h2 id="impacto">O Impacto da Visão Computacional e o Futuro das Interfaces</h2>
+                <div class="highlight-box">
+                    <p>Este projeto é mais do que uma ferramenta de desenho — ele antecipa o futuro das interações digitais. A visão computacional e o reconhecimento de gestos estão se tornando as bases de uma nova geração de interfaces mais humanas e intuitivas.</p>
+                </div>
+
+                <h3><i class="fas fa-hand-pointer"></i> Interfaces Mais Naturais</h3>
+                <p>Estamos nos afastando do paradigma dos cliques e toques para interfaces onde gestos, movimentos e expressões são a nova forma de comando. Isso promete tornar a interação com dispositivos muito mais fluida e orgânica.</p>
+
+                <h3><i class="fas fa-universal-access"></i> Acessibilidade Reimaginada</h3>
+                <p>Pessoas com limitações motoras poderão acessar softwares e controlar dispositivos apenas com gestos simples, quebrando barreiras de inclusão e ampliando a independência digital.</p>
+
+                <h3><i class="fas fa-users"></i> Colaboração Remota Revolucionada</h3>
+                <p>Em videochamadas ou apresentações online, será possível anotar, destacar e interagir diretamente com conteúdos compartilhados — sem precisar de dispositivos externos.</p>
+
+                <h3><i class="fas fa-vr-cardboard"></i> Realidade Aumentada e Virtual (AR/VR)</h3>
+                <p>O rastreamento preciso das mãos é a chave para criar ambientes mais imersivos, onde a interação se dá de maneira natural e tridimensional, como no mundo físico.</p>
+
+                <h3><i class="fas fa-home"></i> Controle Inteligente de Ambientes</h3>
+                <p>Imagine comandar uma apresentação, controlar máquinas em hospitais ou interagir com sistemas industriais apenas com movimentos de mão — em locais onde o toque físico pode ser inviável ou arriscado.</p>
+
+                <h2 id="conclusao">Conclusão</h2>
+                <div class="highlight-box">
+                    <p>Projetos como este mostram que a visão computacional e o reconhecimento de gestos não são apenas tendências, mas os alicerces para uma nova era de interatividade.</p>
+                    <p>Estou animado para continuar explorando novas aplicações e ver até onde podemos levar essa tecnologia!</p>
+                </div>
+            </div>
+
+            <footer class="post-footer">
+                <div class="share-buttons">
+                    <h3>Compartilhe este artigo</h3>
+                    <a href="#" class="share-button twitter"><i class="fab fa-twitter"></i> Twitter</a>
+                    <a href="#" class="share-button linkedin"><i class="fab fa-linkedin"></i> LinkedIn</a>
+                    <a href="#" class="share-button facebook"><i class="fab fa-facebook"></i> Facebook</a>
+                </div>
+            </footer>
+        </article>
+    </main>
+
+    <footer>
+        <p>© Matheus Santos Souza e Silva (TheuxDev). Todos os direitos reservados.</p>
+    </footer>
+
+    <!-- Theme Switcher Button -->
+    <div class="theme-switcher" id="theme-switcher">
+        <i class="fas fa-sun theme-icon" id="theme-icon"></i>
+    </div>
+
+    <script src="../../script.js"></script>
+    <script src="../blog.js"></script>
+</body>
+</html> 

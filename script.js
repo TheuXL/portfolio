@@ -427,22 +427,31 @@ document.addEventListener('DOMContentLoaded', () => {
 
     navLinks.forEach(link => {
         link.addEventListener('click', function(e) {
-            e.preventDefault(); // Prevent default anchor jump
+            // Se for o link do blog, não previne o comportamento padrão
+            if (this.classList.contains('blog-link')) {
+                // Adiciona uma pequena animação de fade antes de navegar
+                document.body.style.opacity = '0.5';
+                document.body.style.transition = 'opacity 0.3s ease';
+                setTimeout(() => {
+                    document.body.style.opacity = '1';
+                }, 50);
+                return; // Permite a navegação normal para o blog
+            }
+
+            e.preventDefault(); // Prevent default anchor jump for other links
             const targetId = this.getAttribute('href'); // Get #home, #about, etc.
             const targetElement = document.querySelector(targetId);
 
             if (targetElement) {
-                 // Calculate position considering sticky header height if necessary
-                 const headerOffset = document.querySelector('header').offsetHeight;
-                 const elementPosition = targetElement.getBoundingClientRect().top + window.pageYOffset;
-                 const offsetPosition = elementPosition - headerOffset - 10; // Adjust -10 for padding
+                // Calculate position considering sticky header height if necessary
+                const headerOffset = document.querySelector('header').offsetHeight;
+                const elementPosition = targetElement.getBoundingClientRect().top + window.pageYOffset;
+                const offsetPosition = elementPosition - headerOffset - 10; // Adjust -10 for padding
 
-                 window.scrollTo({
-                     top: offsetPosition,
-                     behavior: 'smooth'
-                 });
-
-                 // Optional: Close mobile menu if open
+                window.scrollTo({
+                    top: offsetPosition,
+                    behavior: 'smooth'
+                });
             }
         });
     });
@@ -520,6 +529,22 @@ document.addEventListener('DOMContentLoaded', () => {
                 }
             });
         }, 300);
+    });
+
+    // Blog preview video hover effect
+    const previewVideos = document.querySelectorAll('.preview-media video');
+    
+    previewVideos.forEach(video => {
+        const parent = video.closest('.preview-media');
+        
+        parent.addEventListener('mouseenter', () => {
+            video.play().catch(err => console.log('Auto-play prevented:', err));
+        });
+        
+        parent.addEventListener('mouseleave', () => {
+            video.pause();
+            video.currentTime = 0;
+        });
     });
 
 }); // End DOMContentLoaded

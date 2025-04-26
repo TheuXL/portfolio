@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="pt-BR" data-theme="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="description" content="Detecção e rastreamento de dedos em tempo real usando visão computacional - Um projeto detalhado sobre reconhecimento de gestos">
+    <title>Detecção e Rastreamento de Dedos com Visão Computacional - TheuxDev Blog</title>
+    <link rel="stylesheet" href="../../estilo.css">
+    <link rel="stylesheet" href="../blog.css">
+    <link rel="stylesheet" href="post.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <header>
+        <nav>
+            <div class="logo">TheuxDev Blog</div>
+            <ul>
+                <li><a href="../../index.html">Portfolio</a></li>
+                <li><a href="../index.html">Blog</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main class="post-container">
+        <article class="blog-post">
+            <header class="post-header">
+                <div class="post-meta">
+                    <span class="post-category"><i class="fas fa-tag"></i> Visão Computacional</span>
+                    <span class="post-date"><i class="far fa-calendar-alt"></i> 26 Abril, 2024</span>
+                    <span class="reading-time">
+                        <i class="fas fa-clock"></i>
+                        10 min de leitura
+                    </span>
+                </div>
+                <h1>Detecção e Rastreamento de Dedos com Visão Computacional: Meu Projeto em Detalhes</h1>
+                <div class="post-subtitle">
+                    Uma jornada pelo desenvolvimento de um sistema de reconhecimento de gestos em tempo real
+                </div>
+            </header>
+
+            <div class="post-media">
+                <figure>
+                    <video controls poster="../imagens/thumb-deteccao-dedos.jpg">
+                        <source src="../video/Gravando 2025-04-06  principal 30seg.mp4" type="video/mp4">
+                        Seu navegador não suporta o elemento de vídeo.
+                    </video>
+                    <figcaption>Demonstração do sistema de detecção de dedos em funcionamento</figcaption>
+                </figure>
+            </div>
+
+            <div class="post-content">
+                <nav class="table-of-contents">
+                    <h4><i class="fas fa-list"></i> Índice</h4>
+                    <ul>
+                        <li><a href="#introducao"><i class="fas fa-chevron-right"></i> Introdução</a></li>
+                        <li><a href="#tecnologias"><i class="fas fa-chevron-right"></i> Tecnologias Utilizadas</a></li>
+                        <li><a href="#logica"><i class="fas fa-chevron-right"></i> Lógica e Arquitetura do Sistema</a></li>
+                        <li><a href="#desafios"><i class="fas fa-chevron-right"></i> Desafios Técnicos Superados</a></li>
+                        <li><a href="#futuro"><i class="fas fa-chevron-right"></i> O Futuro da Visão Computacional e das LLMs</a></li>
+                        <li><a href="#conclusao"><i class="fas fa-chevron-right"></i> Conclusão</a></li>
+                    </ul>
+                </nav>
+
+                <section id="introducao" class="highlight-box">
+                    <h4><i class="fas fa-info-circle"></i> Sobre o Projeto</h4>
+                    <p>A visão computacional tem avançado rapidamente, abrindo portas para aplicações que vão desde automação até acessibilidade. Hoje, quero compartilhar um projeto que desenvolvi, focado em detectar e rastrear os dedos das mãos em tempo real, identificando não apenas quais dedos estão levantados, mas também a qual mão eles pertencem.</p>
+                </section>
+
+                <section id="tecnologias">
+                    <h2><i class="fas fa-tools"></i> Tecnologias Utilizadas</h2>
+                    <div class="tech-grid">
+                        <div class="tech-item">
+                            <i class="fab fa-python"></i>
+                            <h3>Python</h3>
+                            <p>Escolhido pela simplicidade de sintaxe e pelo vasto ecossistema de bibliotecas voltadas a inteligência artificial e visão computacional.</p>
+                        </div>
+                        <div class="tech-item">
+                            <i class="fas fa-camera"></i>
+                            <h3>OpenCV</h3>
+                            <p>Utilizado para captura, exibição e manipulação de imagens em tempo real.</p>
+                        </div>
+                        <div class="tech-item">
+                            <i class="fas fa-hand-paper"></i>
+                            <h3>MediaPipe</h3>
+                            <p>Framework poderoso do Google que realizei para a detecção precisa das mãos e de seus 21 pontos de referência (landmarks).</p>
+                        </div>
+                        <div class="tech-item">
+                            <i class="fas fa-calculator"></i>
+                            <h3>NumPy</h3>
+                            <p>Empregado para o processamento eficiente dos dados de imagem e coordenadas.</p>
+                        </div>
+                        <div class="tech-item">
+                            <i class="fas fa-window-maximize"></i>
+                            <h3>Tkinter</h3>
+                            <p>Responsável pela criação de interfaces gráficas simples para configuração inicial do sistema.</p>
+                        </div>
+                    </div>
+                </section>
+
+                <section id="logica">
+                    <h2><i class="fas fa-cogs"></i> Lógica e Arquitetura do Sistema</h2>
+                    
+                    <div class="feature-box">
+                        <h3><i class="fas fa-hand-paper"></i> Detecção de Mãos</h3>
+                        <div class="highlight-box">
+                            <p>O projeto utiliza o módulo Hands do MediaPipe, que permite detectar até duas mãos simultaneamente. Cada mão é composta por 21 landmarks, e o sistema realiza a classificação automática de lateralidade — distinguindo se a mão é esquerda ou direita.</p>
+                        </div>
+                    </div>
+
+                    <div class="feature-box">
+                        <h3><i class="fas fa-fingerprint"></i> Detecção de Dedos</h3>
+                        <div class="detection-details">
+                            <p>Para identificar quais dedos estão levantados, desenvolvi uma lógica baseada na análise das posições dos landmarks:</p>
+                            <ul class="feature-list">
+                                <li><strong>Polegar:</strong> Considera a orientação da mão. Na mão direita, é considerado levantado se apontar para a esquerda; na mão esquerda, se apontar para a direita.</li>
+                                <li><strong>Demais dedos:</strong> São detectados como levantados se a ponta do dedo estiver acima da junta média (comparando eixos Y).</li>
+                            </ul>
+                            <p class="note">Foi aplicado um threshold para evitar falsos positivos causados por dedos semi-curvados ou movimentações leves.</p>
+                        </div>
+                    </div>
+
+                    <div class="feature-box">
+                        <h3><i class="fas fa-desktop"></i> Interface e Visualização</h3>
+                        <div class="interface-details">
+                            <p>Para tornar o sistema interativo e fácil de entender:</p>
+                            <ul class="feature-list">
+                                <li>A exibição dos resultados acontece em tempo real, com marcações visuais nos pontos detectados.</li>
+                                <li>Cada mão recebe um retângulo delimitador, facilitando a visualização das regiões detectadas.</li>
+                                <li>A contagem dos dedos levantados é mostrada em texto verde, posicionado de forma inteligente conforme a lateralidade da mão.</li>
+                            </ul>
+                        </div>
+                    </div>
+                </section>
+
+                <section id="desafios">
+                    <h2><i class="fas fa-mountain"></i> Desafios Técnicos Superados</h2>
+                    <div class="challenges-grid">
+                        <div class="challenge-item">
+                            <i class="fas fa-hand-point-up"></i>
+                            <h4>Detecção do Polegar</h4>
+                            <p>Devido à sua movimentação única em comparação aos outros dedos, precisei criar uma lógica dedicada para acertar sua identificação.</p>
+                        </div>
+                        <div class="challenge-item">
+                            <i class="fas fa-hands"></i>
+                            <h4>Classificação de Mãos</h4>
+                            <p>Fundamental para garantir que os gestos fossem interpretados corretamente.</p>
+                        </div>
+                        <div class="challenge-item">
+                            <i class="fas fa-filter"></i>
+                            <h4>Redução de Falsos Positivos</h4>
+                            <p>Ajustei thresholds sensíveis para distinguir dedos verdadeiramente levantados de posições intermediárias.</p>
+                        </div>
+                        <div class="challenge-item">
+                            <i class="fas fa-mobile-alt"></i>
+                            <h4>Interface Adaptativa</h4>
+                            <p>Foi necessário tornar os elementos gráficos dinâmicos, se ajustando à posição e orientação das mãos.</p>
+                        </div>
+                    </div>
+                </section>
+
+                <section id="futuro">
+                    <h2><i class="fas fa-rocket"></i> O Futuro da Visão Computacional e das LLMs</h2>
+                    <div class="future-vision">
+                        <div class="highlight-box">
+                            <p>A visão computacional está entrando em uma nova era. Cada vez mais, estamos vendo aplicações onde a interpretação visual se mistura com compreensão semântica. Projetos como o meu mostram o poder da detecção visual, mas imagine o próximo passo: sistemas que não apenas vejam, mas também entendam contextos complexos e interajam naturalmente com humanos.</p>
+                        </div>
+
+                        <div class="future-applications">
+                            <h3>Possibilidades Futuras</h3>
+                            <ul class="feature-list">
+                                <li><i class="fas fa-comments"></i> Interpretar gestos combinados com comandos de voz</li>
+                                <li><i class="fas fa-universal-access"></i> Explicar visualmente para deficientes visuais</li>
+                                <li><i class="fas fa-brain"></i> Adaptação inteligente a novas tarefas</li>
+                            </ul>
+                        </div>
+                    </div>
+                </section>
+
+                <section id="conclusao">
+                    <h2><i class="fas fa-flag-checkered"></i> Conclusão</h2>
+                    <div class="highlight-box conclusion">
+                        <p>Este projeto é uma prova de como a combinação entre visão computacional e machine learning pode criar sistemas interativos e intuitivos. Com detecção precisa, interface amigável e processamento otimizado, essa abordagem pode ser aplicada em diversas áreas: desde controle por gestos, jogos interativos e aplicações de acessibilidade, até sistemas automatizados que reagem a comandos manuais.</p>
+                        
+                        <p>E olhando para o futuro, a integração entre visão computacional, LLMs e interfaces naturais promete revolucionar ainda mais a forma como nos conectamos com a tecnologia.</p>
+                        
+                        <p class="final-note">Este é apenas o começo — e estou animado para explorar cada novo passo dessa jornada.</p>
+                    </div>
+                </section>
+            </div>
+
+            <footer class="post-footer">
+                <div class="share-buttons">
+                    <h3><i class="fas fa-share-alt"></i> Compartilhe este artigo</h3>
+                    <div class="social-buttons">
+                        <a href="#" class="share-button twitter"><i class="fab fa-twitter"></i> Twitter</a>
+                        <a href="#" class="share-button linkedin"><i class="fab fa-linkedin"></i> LinkedIn</a>
+                        <a href="#" class="share-button facebook"><i class="fab fa-facebook"></i> Facebook</a>
+                    </div>
+                </div>
+            </footer>
+        </article>
+    </main>
+
+    <footer class="site-footer">
+        <p>© Matheus Santos Souza e Silva (TheuxDev). Todos os direitos reservados.</p>
+    </footer>
+
+    <div class="theme-switcher" id="theme-switcher">
+        <i class="fas fa-sun theme-icon" id="theme-icon"></i>
+    </div>
+
+    <script src="../../script.js"></script>
+    <script src="../blog.js"></script>
+</body>
+</html> 

@@ -9,7 +9,8 @@
     --white-color: #ffffff; /* Branco puro */
     --text-color: #e0e0e0; /* Texto claro para fundos escuros */
     --dark-text-color: #111111; /* Texto escuro para fundos claros */
-    --accent-color: #3366ff; /* Azul de destaque para elementos interativos */
+    --accent-color: #007bff;
+    --accent-color-rgb: 0, 123, 255;
     --bg-color: var(--dark-color);
     --bg-color-alt: var(--darker-color);
     --card-bg: var(--darker-color);
@@ -35,6 +36,8 @@
     --modal-bg: var(--dark-color);
     --hero-text-color: #1a1a1a; /* Texto quase preto para o hero no tema claro */
     --hero-highlight-color: #1e4fff; /* Azul vibrante para destaque no hero */
+    --accent-color: #0056b3;
+    --accent-color-rgb: 0, 86, 179;
 }
 
 * {
@@ -139,7 +142,6 @@ header nav ul li a {
 header nav ul li a:hover {
     color: var(--primary-color);
 }
-
 
 /* Hero Section */
 .hero {
@@ -1784,5 +1786,174 @@ section h2 {
     
     .cert-info ul li {
         margin-bottom: 10px;
+    }
+}
+
+/* Blog Preview Section */
+#blog-preview {
+    padding: 4rem 2rem;
+    background: var(--section-bg);
+}
+
+.blog-preview-grid {
+    max-width: 1200px;
+    margin: 2rem auto;
+}
+
+.blog-preview-card {
+    background: var(--card-bg);
+    border-radius: 15px;
+    overflow: hidden;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease;
+    margin-bottom: 2rem;
+}
+
+.blog-preview-card:hover {
+    transform: translateY(-5px);
+}
+
+.preview-media {
+    position: relative;
+    width: 100%;
+    height: 400px;
+    overflow: hidden;
+}
+
+.preview-media video {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.preview-overlay {
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+    z-index: 2;
+}
+
+.preview-tag {
+    background: var(--accent-color);
+    color: white;
+    padding: 0.5rem 1rem;
+    border-radius: 20px;
+    font-size: 0.9rem;
+    font-weight: 600;
+}
+
+.preview-content {
+    padding: 2rem;
+}
+
+.preview-meta {
+    display: flex;
+    gap: 1rem;
+    margin-bottom: 1rem;
+}
+
+.preview-category {
+    color: var(--accent-color);
+    font-weight: 600;
+}
+
+.preview-date {
+    color: var(--text-muted);
+}
+
+.preview-content h3 {
+    font-size: 1.8rem;
+    margin-bottom: 1rem;
+    color: var(--text-primary);
+}
+
+.preview-content p {
+    color: var(--text-secondary);
+    line-height: 1.6;
+    margin-bottom: 1.5rem;
+}
+
+.preview-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    color: var(--accent-color);
+    text-decoration: none;
+    font-weight: 600;
+    transition: gap 0.3s ease;
+}
+
+.preview-link:hover {
+    gap: 1rem;
+}
+
+.blog-preview-footer {
+    text-align: center;
+    margin-top: 2rem;
+}
+
+/* Responsive Design for Blog Preview */
+@media (max-width: 768px) {
+    .preview-media {
+        height: 300px;
+    }
+
+    .preview-content h3 {
+        font-size: 1.5rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .preview-media {
+        height: 200px;
+    }
+
+    .preview-content {
+        padding: 1.5rem;
+    }
+
+    .preview-content h3 {
+        font-size: 1.3rem;
+    }
+
+    .preview-meta {
+        flex-direction: column;
+        gap: 0.5rem;
+    }
+}
+
+/* Add to the existing header nav styles */
+.blog-link {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    color: var(--accent-color) !important;
+    font-weight: 600;
+    transition: all 0.3s ease;
+    position: relative;
+    padding: 0.5rem 1rem !important;
+    border-radius: 20px;
+    background: rgba(var(--accent-color-rgb), 0.1);
+}
+
+.blog-link i {
+    font-size: 1.1em;
+    transition: transform 0.3s ease;
+}
+
+.blog-link:hover {
+    background: rgba(var(--accent-color-rgb), 0.2);
+    transform: translateY(-2px);
+}
+
+.blog-link:hover i {
+    transform: rotate(15deg);
+}
+
+/* Adjust responsive styles for the blog link */
+@media (max-width: 768px) {
+    .blog-link {
+        justify-content: center;
+        margin: 0.5rem 0;
     }
 }
