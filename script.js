@@ -29,6 +29,52 @@ document.addEventListener('DOMContentLoaded', () => {
         projectCards: projectCards
     });
 
+    // Mobile Menu Toggle
+    const mobileMenuBtn = document.getElementById('mobile-menu-toggle');
+    const navMenu = document.getElementById('nav-menu');
+    
+    if (mobileMenuBtn && navMenu) {
+        mobileMenuBtn.addEventListener('click', () => {
+            navMenu.classList.toggle('active');
+            // Change icon based on menu state
+            const icon = mobileMenuBtn.querySelector('i');
+            if (icon) {
+                if (navMenu.classList.contains('active')) {
+                    icon.classList.remove('fa-bars');
+                    icon.classList.add('fa-times');
+                } else {
+                    icon.classList.remove('fa-times');
+                    icon.classList.add('fa-bars');
+                }
+            }
+        });
+        
+        // Close mobile menu when clicking a link
+        const navLinks = navMenu.querySelectorAll('a');
+        navLinks.forEach(link => {
+            link.addEventListener('click', () => {
+                navMenu.classList.remove('active');
+                const icon = mobileMenuBtn.querySelector('i');
+                if (icon) {
+                    icon.classList.remove('fa-times');
+                    icon.classList.add('fa-bars');
+                }
+            });
+        });
+        
+        // Close mobile menu when clicking outside
+        document.addEventListener('click', (e) => {
+            if (!navMenu.contains(e.target) && e.target !== mobileMenuBtn) {
+                navMenu.classList.remove('active');
+                const icon = mobileMenuBtn.querySelector('i');
+                if (icon) {
+                    icon.classList.remove('fa-times');
+                    icon.classList.add('fa-bars');
+                }
+            }
+        });
+    }
+
     // --- Theme Switcher ---
     const themeSwitcher = document.getElementById('theme-switcher');
     const themeIcon = document.getElementById('theme-icon');
@@ -158,6 +204,25 @@ document.addEventListener('DOMContentLoaded', () => {
     // --- Project Data (Store details here) ---
     // You can fetch this from a JSON file later for easier management
     const projectData = {
+        'kingpay': {
+            title: 'KingPay – Plataforma de Pagamentos e Antecipações',
+            image: 'imagens/kingpay.png',
+            description: 'Sistema financeiro completo desenvolvido com Supabase Functions (Deno/TypeScript), oferecendo processamento de pagamentos, antecipações de recebíveis, gestão de carteira digital e integrações com múltiplas adquirentes. A solução implementa um ecossistema financeiro completo com alta segurança e performance para processamento transacional em tempo real, especializado em soluções para e-commerces e lojas de dropshipping. Destaque para a Proteção KingPay: Antifraude Avançado com Inteligência Artificial.',
+            stack: 'Deno, TypeScript, Supabase, PostgreSQL, Serverless Functions, JWT Authentication, Redis Cache, WebHooks, BaaS Integration, Next.js (Frontend)',
+            highlights: [
+                'Proteção KingPay: Sistema antifraude avançado com inteligência artificial para detecção proativa de transações suspeitas em tempo real',
+                'Arquitetura serverless escalável baseada em funções independentes por domínio, permitindo manutenção e evolução isolada de componentes',
+                'Sistema avançado de antecipação de recebíveis com cálculos automáticos de taxas, juros e prazos personalizados por empresa',
+                'Integração com mais de 20 gateways de pagamento diferentes, com tratamento unificado de callbacks e normalização de status',
+                'Implementação de mecanismos de segurança como locks distribuídos e cache para evitar processamento duplicado de transações',
+                'Sistema de permissões granular baseado em perfis e funções com autenticação JWT e validação de senhas financeiras para operações críticas',
+                'Módulo completo de saques via PIX com múltiplas integrações BaaS (Banking as a Service) e validação anti-fraude',
+                'Gestão financeira com cálculos automáticos de reserva financeira, divisão de valores (split payments) e controle de movimentações',
+                'Webhook inteligente para notificação em tempo real de clientes sobre mudanças de status em transações e processamentos financeiros'
+            ],
+            repoLink: '#',
+            liveLink: '#'
+        },
         'hello-app': {
             title: 'Hello – Assistente Virtual com IA (Android)',
             image: 'imagens/Logo Hello.jpg',

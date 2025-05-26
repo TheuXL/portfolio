@@ -348,6 +348,19 @@
     .category-card h3 {
         font-size: 1rem;
     }
+    
+    /* Header adjustments for blog section */
+    header nav {
+        padding: 0 1rem;
+    }
+    
+    header nav ul li {
+        margin: 2px 5px;
+    }
+    
+    header nav ul li a {
+        font-size: 0.85rem;
+    }
 }
 
 @media (max-width: 480px) {
@@ -369,6 +382,24 @@
 
     .empty-category-message {
         padding: 1rem;
+    }
+    
+    /* Smaller header for mobile devices */
+    header nav {
+        padding: 0 0.5rem;
+    }
+    
+    header nav ul {
+        margin-top: 5px;
+    }
+    
+    header nav ul li {
+        margin: 2px;
+    }
+    
+    header nav ul li a {
+        padding: 2px 3px;
+        font-size: 0.8rem;
     }
 }
 

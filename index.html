@@ -14,7 +14,10 @@
     <header>
         <nav>
             <div class="logo">TheuxDev</div>
-            <ul>
+            <button class="mobile-menu-btn" id="mobile-menu-toggle">
+                <i class="fas fa-bars"></i>
+            </button>
+            <ul id="nav-menu">
                 <li><a href="#home">Início</a></li>
                 <li><a href="#about">Sobre</a></li>
                 <li><a href="#skills">Habilidades</a></li>
@@ -178,7 +181,14 @@
         <section id="projects">
             <h2>Projetos em Destaque</h2>
             <div class="projects-grid">
-                <!-- Project Card Example (Repeat for each project) -->
+                <!-- KingPay Project Card -->
+                <div class="project-card" data-project="kingpay">
+                    <img src="imagens/kingpay.png" alt="KingPay Gateway de Pagamentos">
+                    <h3>KingPay – Plataforma de Pagamentos e Antecipações</h3>
+                    <p>Sistema financeiro completo com processamento de pagamentos, antecipações de recebíveis, integrações com múltiplas adquirentes e proteção antifraude com IA.</p>
+                    <span class="view-details">Ver Detalhes</span>
+                </div>
+
                 <!-- Card do Hello Assistant -->
                 <div class="project-card" data-project="hello-app">
                     <img src="imagens/Logo Hello.jpg" alt="Hello App Preview">

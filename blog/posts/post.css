@@ -270,6 +270,16 @@
     .post-content h3 {
         font-size: 1.3rem;
     }
+    
+    /* Header adjustments for post pages */
+    header {
+        padding: 0.5rem 0;
+    }
+    
+    header nav ul li a {
+        padding: 3px 5px;
+        font-size: 0.85rem;
+    }
 }
 
 @media (max-width: 480px) {
@@ -294,5 +304,27 @@
     .post-meta {
         flex-direction: column;
         gap: 0.5rem;
+    }
+    
+    /* Even smaller header for mobile devices */
+    header {
+        padding: 0.4rem 0;
+    }
+    
+    header nav {
+        padding: 0 0.5rem;
+    }
+    
+    header nav ul {
+        margin-top: 5px;
+    }
+    
+    header nav ul li {
+        margin: 2px;
+    }
+    
+    header nav ul li a {
+        padding: 2px 3px;
+        font-size: 0.8rem;
     }
 } 
