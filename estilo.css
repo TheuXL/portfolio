@@ -162,6 +162,24 @@ header nav ul li a:hover {
     color: var(--primary-color);
 }
 
+/* First child extra spacing for better aesthetics */
+header nav ul li:first-child {
+    margin-left: 10px;
+}
+
+/* Last child extra spacing for better aesthetics */
+header nav ul li:last-child {
+    margin-right: 10px;
+}
+
+/* More distinct active state */
+header nav ul li a.active {
+    background: var(--primary-gradient);
+    color: var(--white-color);
+    border-color: transparent;
+    box-shadow: 0 2px 8px rgba(59, 130, 246, 0.3);
+}
+
 /* Mobile Menu Button */
 .mobile-menu-btn {
     display: none;
@@ -237,18 +255,27 @@ header nav ul li a:hover {
         top: 55px;
         left: 0;
         right: 0;
-        bottom: 0;
+        height: 50px; /* Smaller height for more compact look */
         background: var(--header-bg);
-        flex-direction: column;
+        flex-direction: row;
         align-items: center;
-        justify-content: center;
-        padding: 20px 0;
+        justify-content: flex-start;
+        padding: 0 10px;
         box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
         z-index: 1001;
         border-top: 1px solid rgba(59, 130, 246, 0.2);
         margin-top: 0;
         backdrop-filter: blur(10px);
         -webkit-backdrop-filter: blur(10px);
+        overflow-x: auto;
+        overflow-y: hidden;
+        white-space: nowrap;
+        scrollbar-width: none; /* Firefox */
+        -ms-overflow-style: none; /* IE and Edge */
+    }
+    
+    header nav ul::-webkit-scrollbar {
+        display: none; /* Chrome, Safari and Opera */
     }
     
     header nav ul.active {
@@ -268,12 +295,23 @@ header nav ul li a:hover {
     }
     
     header nav ul li {
-        margin: 12px 0;
+        margin: 0 3px; /* Tighter spacing */
         text-align: center;
-        width: 100%;
+        width: auto;
         opacity: 0;
         transform: translateY(10px);
         animation: fadeInItems 0.5s forwards;
+        flex-shrink: 0;
+    }
+    
+    /* First child extra spacing for better aesthetics */
+    header nav ul li:first-child {
+        margin-left: 10px;
+    }
+    
+    /* Last child extra spacing for better aesthetics */
+    header nav ul li:last-child {
+        margin-right: 10px;
     }
     
     @keyframes fadeInItems {
@@ -283,25 +321,97 @@ header nav ul li a:hover {
         }
     }
     
-    header nav ul.active li:nth-child(1) { animation-delay: 0.1s; }
-    header nav ul.active li:nth-child(2) { animation-delay: 0.2s; }
-    header nav ul.active li:nth-child(3) { animation-delay: 0.3s; }
-    header nav ul.active li:nth-child(4) { animation-delay: 0.4s; }
-    header nav ul.active li:nth-child(5) { animation-delay: 0.5s; }
+    header nav ul.active li:nth-child(1) { animation-delay: 0.05s; }
+    header nav ul.active li:nth-child(2) { animation-delay: 0.1s; }
+    header nav ul.active li:nth-child(3) { animation-delay: 0.15s; }
+    header nav ul.active li:nth-child(4) { animation-delay: 0.2s; }
+    header nav ul.active li:nth-child(5) { animation-delay: 0.25s; }
+    header nav ul.active li:nth-child(6) { animation-delay: 0.3s; }
+    header nav ul.active li:nth-child(7) { animation-delay: 0.35s; }
+    header nav ul.active li:nth-child(8) { animation-delay: 0.4s; }
+    header nav ul.active li:nth-child(9) { animation-delay: 0.45s; }
+    header nav ul.active li:nth-child(10) { animation-delay: 0.5s; }
     
+    /* Override desktop styles for mobile */
     header nav ul li a {
         display: block;
-        padding: 12px 15px;
-        width: 80%;
-        margin: 0 auto;
-        font-size: 1rem;
-        border-radius: var(--border-radius-sm);
+        padding: 6px 12px;
+        font-size: 0.9rem;
+        border-radius: 15px;
         transition: all 0.3s ease;
+        background-color: rgba(59, 130, 246, 0.05);
+        border: 1px solid rgba(59, 130, 246, 0.05);
+        min-width: 70px;
+        text-align: center;
+        font-weight: 500;
+        color: var(--light-color);
+    }
+    
+    header nav ul li a i {
+        display: none; /* Hide icons on mobile */
     }
     
     header nav ul li a:hover {
         background-color: rgba(59, 130, 246, 0.1);
         transform: translateY(-2px);
+        border-color: rgba(59, 130, 246, 0.2);
+        color: var(--primary-color);
+    }
+    
+    /* More distinct active state */
+    header nav ul li a.active {
+        background: var(--primary-gradient);
+        color: var(--white-color) !important;
+        border-color: transparent;
+        box-shadow: 0 2px 8px rgba(59, 130, 246, 0.3);
+    }
+    
+    /* Special style for the blog link to make it stand out */
+    header nav ul li a.blog-link {
+        background: var(--primary-gradient);
+        color: var(--white-color) !important;
+    }
+    
+    header nav ul li a.blog-link:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3);
+        border-color: transparent;
+    }
+    
+    header nav ul li a.blog-link i {
+        display: none; /* Hide blog icon as well */
+    }
+    
+    /* Scrollable indicator */
+    header nav ul.scrollable::after {
+        content: '';
+        position: absolute;
+        top: 50%;
+        right: 10px;
+        transform: translateY(-50%);
+        width: 20px;
+        height: 20px;
+        background: linear-gradient(90deg, transparent, var(--header-bg) 60%);
+        border-radius: 50%;
+        pointer-events: none;
+        animation: pulseGlow 1.5s infinite alternate;
+        z-index: 2;
+    }
+    
+    @keyframes pulseGlow {
+        from {
+            opacity: 0.2;
+            box-shadow: 0 0 5px rgba(59, 130, 246, 0.2);
+        }
+        to {
+            opacity: 0.8;
+            box-shadow: 0 0 10px rgba(59, 130, 246, 0.5);
+        }
+    }
+    
+    /* Add a hint on first display */
+    header nav ul.scrollable li:last-child {
+        margin-right: 25px; /* Extra space for the scroll indicator */
     }
 }
 

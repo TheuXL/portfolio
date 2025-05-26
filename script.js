@@ -46,6 +46,15 @@ document.addEventListener('DOMContentLoaded', () => {
             if (navMenu.classList.contains('active')) {
                 header.classList.remove('header-hidden');
                 isHeaderVisible = true;
+                
+                // Check if menu needs scroll indicator
+                setTimeout(() => {
+                    if (navMenu.scrollWidth > navMenu.clientWidth) {
+                        navMenu.classList.add('scrollable');
+                    } else {
+                        navMenu.classList.remove('scrollable');
+                    }
+                }, 100);
             }
             
             // Change icon based on menu state
@@ -69,20 +78,57 @@ document.addEventListener('DOMContentLoaded', () => {
         mobileMenuBtn.addEventListener('click', toggleMenu);
         mobileMenuBtn.addEventListener('touchstart', toggleMenu, {passive: false});
         
+        // Function to close mobile menu
+        const closeMenu = () => {
+            navMenu.classList.remove('active');
+            document.body.classList.remove('menu-open');
+            const icon = mobileMenuBtn.querySelector('i');
+            if (icon) {
+                icon.classList.remove('fa-times');
+                icon.classList.add('fa-bars');
+            }
+            mobileMenuBtn.setAttribute('aria-expanded', 'false');
+        };
+        
         // Close mobile menu when clicking a link
-        const navLinks = navMenu.querySelectorAll('a');
-        navLinks.forEach(link => {
-            link.addEventListener('click', () => {
-                navMenu.classList.remove('active');
-                document.body.classList.remove('menu-open');
-                const icon = mobileMenuBtn.querySelector('i');
-                if (icon) {
-                    icon.classList.remove('fa-times');
-                    icon.classList.add('fa-bars');
+        const menuLinks = navMenu.querySelectorAll('a');
+        menuLinks.forEach(link => {
+            // Skip links that should open in new pages/tabs
+            if (link.getAttribute('target') === '_blank' || link.classList.contains('blog-link')) {
+                return;
+            }
+            
+            link.addEventListener('click', (e) => {
+                e.preventDefault();
+                closeMenu();
+                
+                // Scroll to the section after menu closes
+                const targetId = link.getAttribute('href');
+                if (targetId.startsWith('#')) {
+                    const targetElement = document.querySelector(targetId);
+                    
+                    if (targetElement) {
+                        const headerOffset = document.querySelector('header').offsetHeight;
+                        const elementPosition = targetElement.getBoundingClientRect().top + window.pageYOffset;
+                        const offsetPosition = elementPosition - headerOffset - 10;
+                        
+                        // Smooth scroll to target
+                        window.scrollTo({
+                            top: offsetPosition,
+                            behavior: 'smooth'
+                        });
+                    }
                 }
-                mobileMenuBtn.setAttribute('aria-expanded', 'false');
             });
         });
+        
+        // Handle blog link separately
+        const blogLink = navMenu.querySelector('.blog-link');
+        if (blogLink) {
+            blogLink.addEventListener('click', () => {
+                closeMenu();
+            });
+        }
         
         // Close mobile menu when clicking outside (improved)
         document.addEventListener('click', (e) => {
@@ -92,14 +138,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 e.target !== mobileMenuBtn && 
                 !mobileMenuBtn.contains(e.target)) {
                 
-                navMenu.classList.remove('active');
-                document.body.classList.remove('menu-open');
-                const icon = mobileMenuBtn.querySelector('i');
-                if (icon) {
-                    icon.classList.remove('fa-times');
-                    icon.classList.add('fa-bars');
-                }
-                mobileMenuBtn.setAttribute('aria-expanded', 'false');
+                closeMenu();
                 console.log('Mobile menu closed by outside click');
             }
         });
@@ -111,11 +150,48 @@ document.addEventListener('DOMContentLoaded', () => {
     let scrollThreshold = 100; // Min scroll before hiding header
     let isHeaderVisible = true;
     
+    // Highlight current section in navigation
+    const sectionElements = document.querySelectorAll('section[id]');
+    const navLinkElements = document.querySelectorAll('header nav ul li a');
+    
+    function highlightNavOnScroll() {
+        const scrollPosition = window.scrollY;
+        
+        // Find the current section
+        sectionElements.forEach(section => {
+            const sectionTop = section.offsetTop - 100;
+            const sectionHeight = section.offsetHeight;
+            const sectionId = section.getAttribute('id');
+            
+            if (scrollPosition >= sectionTop && scrollPosition < sectionTop + sectionHeight) {
+                // Remove active class from all links
+                navLinkElements.forEach(link => {
+                    link.classList.remove('active');
+                });
+                
+                // Add active class to current section link
+                document.querySelector(`header nav ul li a[href="#${sectionId}"]`)?.classList.add('active');
+            }
+        });
+    }
+    
+    // Call on scroll
+    window.addEventListener('scroll', highlightNavOnScroll);
+    
     window.addEventListener('scroll', () => {
         const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
         
         // Don't hide header when mobile menu is open
         if (navMenu && navMenu.classList.contains('active')) {
+            return;
+        }
+        
+        // On mobile, keep the header visible for first 300px of scroll to keep menu accessible
+        if (window.innerWidth <= 768 && scrollTop < 300) {
+            if (!isHeaderVisible) {
+                header.classList.remove('header-hidden');
+                isHeaderVisible = true;
+            }
             return;
         }
         
@@ -555,10 +631,15 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     // --- Smooth Scrolling for Nav Links ---
-    const navLinks = document.querySelectorAll('header nav ul li a');
+    const desktopNavLinks = document.querySelectorAll('header nav ul li a[href^="#"]');
 
-    navLinks.forEach(link => {
+    desktopNavLinks.forEach(link => {
         link.addEventListener('click', function(e) {
+            // If this is in the mobile menu, it's already handled
+            if (window.innerWidth <= 768) {
+                return; // Mobile links now handled in the mobile menu section
+            }
+            
             // Se for o link do blog, não previne o comportamento padrão
             if (this.classList.contains('blog-link')) {
                 // Adiciona uma pequena animação de fade antes de navegar
@@ -619,31 +700,6 @@ document.addEventListener('DOMContentLoaded', () => {
     // --- Mobile Navigation Enhancements ---
     const isMobile = () => window.innerWidth <= 768;
     
-    // Fecha o menu após clicar em um link em telas menores
-    navLinks.forEach(link => {
-        link.addEventListener('click', () => {
-            if (isMobile()) {
-                // Se tiver um menu mobile com toggle, fechá-lo aqui
-                // Por exemplo: mobileMenuToggle.classList.remove('active');
-                
-                // Suaviza a transição de scroll em dispositivos móveis
-                const targetId = link.getAttribute('href');
-                const targetElement = document.querySelector(targetId);
-                
-                if (targetElement) {
-                    const headerOffset = document.querySelector('header').offsetHeight;
-                    const elementPosition = targetElement.getBoundingClientRect().top + window.pageYOffset;
-                    const offsetPosition = elementPosition - headerOffset;
-                    
-                    window.scrollTo({
-                        top: offsetPosition,
-                        behavior: 'smooth'
-                    });
-                }
-            }
-        });
-    });
-    
     // Ajusta automaticamente a UI quando o dispositivo é girado
     window.addEventListener('orientationchange', () => {
         setTimeout(() => {
@@ -677,6 +733,21 @@ document.addEventListener('DOMContentLoaded', () => {
             video.pause();
             video.currentTime = 0;
         });
+    });
+
+    // Add scroll event to auto-close mobile menu after scrolling a bit
+    let lastScrollPosition = 0;
+    window.addEventListener('scroll', () => {
+        const currentScrollPosition = window.pageYOffset || document.documentElement.scrollTop;
+        
+        // Auto-close mobile menu after scrolling more than 100px
+        if (navMenu && navMenu.classList.contains('active')) {
+            if (Math.abs(currentScrollPosition - lastScrollPosition) > 100) {
+                closeMenu();
+            }
+        }
+        
+        lastScrollPosition = currentScrollPosition;
     });
 
 }); // End DOMContentLoaded
