@@ -34,46 +34,113 @@ document.addEventListener('DOMContentLoaded', () => {
     const navMenu = document.getElementById('nav-menu');
     
     if (mobileMenuBtn && navMenu) {
-        mobileMenuBtn.addEventListener('click', () => {
+        // Function to toggle menu state
+        const toggleMenu = function(e) {
+            e.preventDefault(); // Prevent default action
+            e.stopPropagation(); // Stop event from bubbling up
+            
+            document.body.classList.toggle('menu-open'); // Add class to body
             navMenu.classList.toggle('active');
+            
+            // Show header when menu is toggled on
+            if (navMenu.classList.contains('active')) {
+                header.classList.remove('header-hidden');
+                isHeaderVisible = true;
+            }
+            
             // Change icon based on menu state
             const icon = mobileMenuBtn.querySelector('i');
             if (icon) {
                 if (navMenu.classList.contains('active')) {
                     icon.classList.remove('fa-bars');
                     icon.classList.add('fa-times');
+                    mobileMenuBtn.setAttribute('aria-expanded', 'true');
                 } else {
                     icon.classList.remove('fa-times');
                     icon.classList.add('fa-bars');
+                    mobileMenuBtn.setAttribute('aria-expanded', 'false');
                 }
             }
-        });
+            
+            console.log('Mobile menu toggled, active state:', navMenu.classList.contains('active'));
+        };
+        
+        // Add both click and touchstart event listeners for better mobile experience
+        mobileMenuBtn.addEventListener('click', toggleMenu);
+        mobileMenuBtn.addEventListener('touchstart', toggleMenu, {passive: false});
         
         // Close mobile menu when clicking a link
         const navLinks = navMenu.querySelectorAll('a');
         navLinks.forEach(link => {
             link.addEventListener('click', () => {
                 navMenu.classList.remove('active');
+                document.body.classList.remove('menu-open');
                 const icon = mobileMenuBtn.querySelector('i');
                 if (icon) {
                     icon.classList.remove('fa-times');
                     icon.classList.add('fa-bars');
                 }
+                mobileMenuBtn.setAttribute('aria-expanded', 'false');
             });
         });
         
-        // Close mobile menu when clicking outside
+        // Close mobile menu when clicking outside (improved)
         document.addEventListener('click', (e) => {
-            if (!navMenu.contains(e.target) && e.target !== mobileMenuBtn) {
+            // Only act if menu is active and click is outside menu and not on menu button
+            if (navMenu.classList.contains('active') && 
+                !navMenu.contains(e.target) && 
+                e.target !== mobileMenuBtn && 
+                !mobileMenuBtn.contains(e.target)) {
+                
                 navMenu.classList.remove('active');
+                document.body.classList.remove('menu-open');
                 const icon = mobileMenuBtn.querySelector('i');
                 if (icon) {
                     icon.classList.remove('fa-times');
                     icon.classList.add('fa-bars');
                 }
+                mobileMenuBtn.setAttribute('aria-expanded', 'false');
+                console.log('Mobile menu closed by outside click');
             }
         });
     }
+
+    // Header scroll behavior
+    const header = document.querySelector('header');
+    let lastScrollTop = 0;
+    let scrollThreshold = 100; // Min scroll before hiding header
+    let isHeaderVisible = true;
+    
+    window.addEventListener('scroll', () => {
+        const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+        
+        // Don't hide header when mobile menu is open
+        if (navMenu && navMenu.classList.contains('active')) {
+            return;
+        }
+        
+        // Only start hiding after scrolling past threshold
+        if (scrollTop > scrollThreshold) {
+            // Scrolling down
+            if (scrollTop > lastScrollTop && isHeaderVisible) {
+                header.classList.add('header-hidden');
+                isHeaderVisible = false;
+            } 
+            // Scrolling up
+            else if (scrollTop < lastScrollTop && !isHeaderVisible) {
+                header.classList.remove('header-hidden');
+                isHeaderVisible = true;
+            }
+        } else {
+            // Always show header at the top of the page
+            if (!isHeaderVisible) {
+                header.classList.remove('header-hidden');
+                isHeaderVisible = true;
+            }
+        }
+        
+        lastScrollTop = scrollTop;
+    });
 
     // --- Theme Switcher ---
     const themeSwitcher = document.getElementById('theme-switcher');
