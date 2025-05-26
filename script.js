@@ -740,11 +740,9 @@ document.addEventListener('DOMContentLoaded', () => {
     window.addEventListener('scroll', () => {
         const currentScrollPosition = window.pageYOffset || document.documentElement.scrollTop;
         
-        // Auto-close mobile menu after scrolling more than 100px
+        // Auto-close mobile menu immediately when scrolling starts
         if (navMenu && navMenu.classList.contains('active')) {
-            if (Math.abs(currentScrollPosition - lastScrollPosition) > 100) {
-                closeMenu();
-            }
+            closeMenu();
         }
         
         lastScrollPosition = currentScrollPosition;

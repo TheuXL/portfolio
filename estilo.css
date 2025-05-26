@@ -255,23 +255,23 @@ header nav ul li a.active {
         top: 55px;
         left: 0;
         right: 0;
-        height: 50px; /* Smaller height for more compact look */
+        height: auto; /* Auto height for vertical layout */
+        max-height: 70vh; /* Limit maximum height */
         background: var(--header-bg);
-        flex-direction: row;
+        flex-direction: column;
         align-items: center;
         justify-content: flex-start;
-        padding: 0 10px;
+        padding: 12px 5px;
         box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
         z-index: 1001;
         border-top: 1px solid rgba(59, 130, 246, 0.2);
         margin-top: 0;
         backdrop-filter: blur(10px);
         -webkit-backdrop-filter: blur(10px);
-        overflow-x: auto;
-        overflow-y: hidden;
-        white-space: nowrap;
-        scrollbar-width: none; /* Firefox */
-        -ms-overflow-style: none; /* IE and Edge */
+        overflow-x: hidden;
+        overflow-y: auto;
+        scrollbar-width: thin; /* Firefox */
+        -ms-overflow-style: thin; /* IE and Edge */
     }
     
     header nav ul::-webkit-scrollbar {
@@ -286,7 +286,7 @@ header nav ul li a.active {
     @keyframes slideIn {
         from {
             opacity: 0;
-            transform: translateY(-10px);
+            transform: translateY(-5px);
         }
         to {
             opacity: 1;
@@ -295,9 +295,9 @@ header nav ul li a.active {
     }
     
     header nav ul li {
-        margin: 0 3px; /* Tighter spacing */
+        margin: 4px 0; /* Vertical spacing */
         text-align: center;
-        width: auto;
+        width: 100%;
         opacity: 0;
         transform: translateY(10px);
         animation: fadeInItems 0.5s forwards;
@@ -306,12 +306,12 @@ header nav ul li a.active {
     
     /* First child extra spacing for better aesthetics */
     header nav ul li:first-child {
-        margin-left: 10px;
+        margin-left: 5px;
     }
     
     /* Last child extra spacing for better aesthetics */
     header nav ul li:last-child {
-        margin-right: 10px;
+        margin-right: 5px;
     }
     
     @keyframes fadeInItems {
@@ -334,21 +334,67 @@ header nav ul li a.active {
     
     /* Override desktop styles for mobile */
     header nav ul li a {
-        display: block;
-        padding: 6px 12px;
-        font-size: 0.9rem;
-        border-radius: 15px;
+        display: flex;
+        align-items: center;
+        justify-content: flex-start;
+        padding: 10px 15px;
+        font-size: 1rem;
+        border-radius: 12px;
         transition: all 0.3s ease;
         background-color: rgba(59, 130, 246, 0.05);
         border: 1px solid rgba(59, 130, 246, 0.05);
-        min-width: 70px;
-        text-align: center;
+        width: 85%;
+        max-width: 280px;
+        text-align: left;
         font-weight: 500;
         color: var(--light-color);
+        white-space: normal; /* Allow text wrapping */
+        height: auto; /* Auto height */
+        min-height: 44px; /* Minimum height for touch targets */
+    }
+    
+    /* Different spacing for very small screens */
+    @media (max-width: 375px) {
+        header nav ul li a {
+            padding: 8px 12px;
+            font-size: 0.9rem;
+            min-height: 40px;
+            width: 90%;
+        }
+        
+        header nav ul li {
+            margin: 3px 0;
+        }
+        
+        header nav ul {
+            padding: 10px 5px;
+        }
+    }
+    
+    /* Extra small screens */
+    @media (max-width: 320px) {
+        header nav ul li a {
+            padding: 7px 10px;
+            font-size: 0.85rem;
+            min-height: 38px;
+            width: 95%;
+        }
+        
+        header nav ul li {
+            margin: 2px 0;
+        }
+        
+        header nav ul {
+            padding: 8px 2px;
+        }
     }
     
     header nav ul li a i {
-        display: none; /* Hide icons on mobile */
+        display: inline-block;
+        margin-right: 10px;
+        font-size: 1.1rem;
+        min-width: 20px;
+        text-align: center;
     }
     
     header nav ul li a:hover {
@@ -364,6 +410,8 @@ header nav ul li a.active {
         color: var(--white-color) !important;
         border-color: transparent;
         box-shadow: 0 2px 8px rgba(59, 130, 246, 0.3);
+        transform: translateX(5px);
+        font-weight: 600;
     }
     
     /* Special style for the blog link to make it stand out */
@@ -467,6 +515,15 @@ header nav ul li a.active {
     background-clip: text;
     color: transparent;
     text-shadow: 0 5px 15px rgba(59, 130, 246, 0.2);
+}
+
+/* Fix for emoji in hero title */
+.hero h1 .emoji {
+    background: none;
+    -webkit-background-clip: initial;
+    background-clip: initial;
+    color: initial;
+    text-shadow: none;
 }
 
 .hero .subtitle {
