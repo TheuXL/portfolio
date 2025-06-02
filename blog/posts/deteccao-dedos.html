@@ -15,9 +15,12 @@
     <header>
         <nav>
             <div class="logo">TheuxDev Blog</div>
-            <ul>
-                <li><a href="../../index.html">Portfolio</a></li>
-                <li><a href="../index.html">Blog</a></li>
+            <button class="mobile-menu-btn" id="mobile-menu-toggle">
+                <i class="fas fa-bars"></i>
+            </button>
+            <ul id="nav-menu">
+                <li><a href="../../index.html" class="portfolio-link"><i class="fas fa-arrow-left"></i> Voltar ao Portfolio</a></li>
+                <li><a href="../index.html" class="blog-home"><i class="fas fa-home"></i> Blog Home</a></li>
             </ul>
         </nav>
     </header>
@@ -212,5 +215,51 @@
 
     <script src="../../script.js"></script>
     <script src="../blog.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // Mobile Menu Toggle
+            const mobileMenuBtn = document.getElementById('mobile-menu-toggle');
+            const navMenu = document.getElementById('nav-menu');
+            
+            // Ensure Portfolio link works correctly
+            const portfolioLink = document.querySelector('a[href="../../index.html"]');
+            if (portfolioLink) {
+                portfolioLink.addEventListener('click', () => {
+                    console.log('Portfolio link clicked from post page, navigating to main site');
+                    // Don't add any preventDefault() to ensure normal navigation happens
+                });
+            }
+            
+            if (mobileMenuBtn && navMenu) {
+                mobileMenuBtn.addEventListener('click', () => {
+                    navMenu.classList.toggle('active');
+                    // Change icon based on menu state
+                    const icon = mobileMenuBtn.querySelector('i');
+                    if (icon) {
+                        if (navMenu.classList.contains('active')) {
+                            icon.classList.remove('fa-bars');
+                            icon.classList.add('fa-times');
+                        } else {
+                            icon.classList.remove('fa-times');
+                            icon.classList.add('fa-bars');
+                        }
+                    }
+                });
+                
+                // Close mobile menu when clicking a link
+                const navLinks = navMenu.querySelectorAll('a');
+                navLinks.forEach(link => {
+                    link.addEventListener('click', () => {
+                        navMenu.classList.remove('active');
+                        const icon = mobileMenuBtn.querySelector('i');
+                        if (icon) {
+                            icon.classList.remove('fa-times');
+                            icon.classList.add('fa-bars');
+                        }
+                    });
+                });
+            }
+        });
+    </script>
 </body>
 </html> 

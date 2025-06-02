@@ -16,6 +16,87 @@ document.addEventListener('DOMContentLoaded', () => {
     closeModalButton = document.querySelector('.close-button');
     projectCards = document.querySelectorAll('.project-card');
 
+    // --- 3D Parallax Effect for Hero Section ---
+    const heroSection = document.querySelector('.hero');
+    const heroContent = document.querySelector('.hero-content');
+    const profileBadge = document.querySelector('.profile-badge');
+    const badgeContainer = document.querySelector('.badge-container');
+    const heroTechLogos = document.querySelectorAll('.tech-logo');
+    const heroTitle = document.querySelector('.hero h1');
+    const ctaButtons = document.querySelectorAll('.hero .cta-button');
+    
+    // Parallax effect on mouse move
+    if (heroSection && window.innerWidth > 768) { // Only on desktop
+        heroSection.addEventListener('mousemove', (e) => {
+            // Get mouse position relative to the center of the hero section
+            const rect = heroSection.getBoundingClientRect();
+            const centerX = rect.width / 2;
+            const centerY = rect.height / 2;
+            const mouseX = e.clientX - rect.left - centerX;
+            const mouseY = e.clientY - rect.top - centerY;
+            
+            // Calculate movement percentage
+            const moveX = mouseX / centerX;
+            const moveY = mouseY / centerY;
+            
+            // Apply 3D transform to hero content (subtle effect)
+            if (heroContent) {
+                heroContent.style.transform = `translateZ(20px) rotateY(${moveX * 3}deg) rotateX(${-moveY * 2}deg)`;
+            }
+            
+            // Apply 3D transform to profile badge (more pronounced effect)
+            if (badgeContainer) {
+                badgeContainer.style.transform = `translateZ(30px) rotateY(${moveX * 10}deg) rotateX(${-moveY * 5}deg)`;
+            }
+            
+            // Apply 3D transform to hero title
+            if (heroTitle) {
+                heroTitle.style.transform = `translateZ(40px) translateX(${moveX * 15}px) translateY(${moveY * 10}px)`;
+            }
+            
+            // Apply effect to CTA buttons
+            ctaButtons.forEach(button => {
+                button.style.transform = `translateZ(30px) translateX(${moveX * 10}px) translateY(${moveY * 5}px)`;
+            });
+            
+            // Apply different transform to each tech logo for dynamic effect
+            heroTechLogos.forEach((logo, index) => {
+                const factor = (index % 5) + 1; // Different factor for each logo
+                const invertFactor = index % 2 === 0 ? 1 : -1; // Alternate direction
+                
+                // Get current position
+                const currentX = parseFloat(logo.style.left) || 0;
+                const currentY = parseFloat(logo.style.top) || 0;
+                
+                // Add mouse-based movement (very subtle)
+                logo.style.transform = `translateZ(${factor * 5}px) rotateY(${moveX * factor * 8 * invertFactor}deg) rotateX(${-moveY * factor * 5 * invertFactor}deg)`;
+            });
+        });
+        
+        // Reset transforms when mouse leaves hero section
+        heroSection.addEventListener('mouseleave', () => {
+            if (heroContent) {
+                heroContent.style.transform = 'translateZ(0)';
+            }
+            
+            if (badgeContainer) {
+                badgeContainer.style.transform = 'rotate(-2deg) translateZ(0)';
+            }
+            
+            if (heroTitle) {
+                heroTitle.style.transform = 'translateZ(30px)';
+            }
+            
+            ctaButtons.forEach(button => {
+                button.style.transform = 'translateZ(20px)';
+            });
+            
+            heroTechLogos.forEach(logo => {
+                logo.style.transform = 'translateZ(0) rotateX(0) rotateY(0)';
+            });
+        });
+    }
+
     console.log('Modal elements:', {
         modal: modal,
         modalTitle: modalTitle,
@@ -631,40 +712,36 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     // --- Smooth Scrolling for Nav Links ---
-    const desktopNavLinks = document.querySelectorAll('header nav ul li a[href^="#"]');
+    const navDesktopLinks = document.querySelectorAll('header nav ul li a');
 
-    desktopNavLinks.forEach(link => {
-        link.addEventListener('click', function(e) {
-            // If this is in the mobile menu, it's already handled
-            if (window.innerWidth <= 768) {
-                return; // Mobile links now handled in the mobile menu section
+    navDesktopLinks.forEach(link => {
+        link.addEventListener('click', (e) => {
+            // Skip processing for blog link which should navigate normally
+            if (link.getAttribute('href').includes('blog')) {
+                return; // Allow normal navigation for blog links
             }
             
-            // Se for o link do blog, não previne o comportamento padrão
-            if (this.classList.contains('blog-link')) {
-                // Adiciona uma pequena animação de fade antes de navegar
-                document.body.style.opacity = '0.5';
-                document.body.style.transition = 'opacity 0.3s ease';
-                setTimeout(() => {
-                    document.body.style.opacity = '1';
-                }, 50);
-                return; // Permite a navegação normal para o blog
+            // Skip processing for the mobile menu (already handled elsewhere)
+            if (window.innerWidth <= 768) {
+                return;
             }
-
-            e.preventDefault(); // Prevent default anchor jump for other links
-            const targetId = this.getAttribute('href'); // Get #home, #about, etc.
-            const targetElement = document.querySelector(targetId);
-
-            if (targetElement) {
-                // Calculate position considering sticky header height if necessary
-                const headerOffset = document.querySelector('header').offsetHeight;
-                const elementPosition = targetElement.getBoundingClientRect().top + window.pageYOffset;
-                const offsetPosition = elementPosition - headerOffset - 10; // Adjust -10 for padding
-
-                window.scrollTo({
-                    top: offsetPosition,
-                    behavior: 'smooth'
-                });
+            
+            // For regular navigation links on desktop
+            if (link.getAttribute('href').startsWith('#')) {
+                e.preventDefault();
+                const targetId = link.getAttribute('href');
+                const targetElement = document.querySelector(targetId);
+                
+                if (targetElement) {
+                    const headerOffset = document.querySelector('header').offsetHeight;
+                    const elementPosition = targetElement.getBoundingClientRect().top + window.pageYOffset;
+                    const offsetPosition = elementPosition - headerOffset - 10;
+                    
+                    window.scrollTo({
+                        top: offsetPosition,
+                        behavior: 'smooth'
+                    });
+                }
             }
         });
     });
@@ -748,18 +825,63 @@ document.addEventListener('DOMContentLoaded', () => {
         lastScrollPosition = currentScrollPosition;
     });
 
+    // --- Project Cards 3D Tilt Effect ---
+    function addTiltEffect(elements) {
+        elements.forEach(element => {
+            // Only apply tilt effect on desktop
+            if (window.innerWidth <= 768) return;
+            
+            element.addEventListener('mousemove', e => {
+                const card = element;
+                const cardRect = card.getBoundingClientRect();
+                
+                // Calculate mouse position relative to the card
+                const cardX = e.clientX - cardRect.left;
+                const cardY = e.clientY - cardRect.top;
+                
+                // Calculate rotation angles based on mouse position
+                // The card will tilt towards the mouse pointer
+                const angleY = ((cardX / cardRect.width) - 0.5) * 20; // -10 to 10 degrees
+                const angleX = ((cardY / cardRect.height) - 0.5) * -20; // 10 to -10 degrees
+                
+                // Apply the 3D transformation
+                card.style.transform = `translateY(-10px) translateZ(20px) rotateX(${angleX}deg) rotateY(${angleY}deg)`;
+                
+                // Enhance inner elements
+                const cardImg = card.querySelector('img');
+                const cardTitle = card.querySelector('h3');
+                const cardText = card.querySelector('p');
+                const viewDetails = card.querySelector('.view-details');
+                
+                if (cardImg) cardImg.style.transform = `scale(1.08) translateZ(${30 + Math.abs(angleY)}px)`;
+                if (cardTitle) cardTitle.style.transform = `translateZ(${40 + Math.abs(angleX)}px)`;
+                if (cardText) cardText.style.transform = `translateZ(${25 + Math.abs(angleY/2)}px)`;
+                if (viewDetails) viewDetails.style.transform = `translateZ(${35 + Math.abs(angleX/2)}px)`;
+            });
+            
+            // Reset transformations when mouse leaves the card
+            element.addEventListener('mouseleave', e => {
+                const card = element;
+                card.style.transform = 'translateZ(0)';
+                
+                // Reset inner elements
+                const cardImg = card.querySelector('img');
+                const cardTitle = card.querySelector('h3');
+                const cardText = card.querySelector('p');
+                const viewDetails = card.querySelector('.view-details');
+                
+                if (cardImg) cardImg.style.transform = 'translateZ(10px)';
+                if (cardTitle) cardTitle.style.transform = 'translateZ(15px)';
+                if (cardText) cardText.style.transform = 'translateZ(5px)';
+                if (viewDetails) viewDetails.style.transform = 'translateZ(5px)';
+            });
+        });
+    }
+
+    // Apply tilt effect to project cards
+    addTiltEffect(document.querySelectorAll('.project-card'));
+
+    // Apply tilt effect to resume cards
+    addTiltEffect(document.querySelectorAll('.resume-card'));
+
 }); // End DOMContentLoaded
-
-// --- Add CSS for animations (in style.css) ---
-/*
-.animate-hidden {
-    opacity: 0;
-    transform: translateY(30px);
-    transition: opacity 0.6s ease-out, transform 0.6s ease-out;
-}
-
-.animate-visible {
-    opacity: 1;
-    transform: translateY(0);
-}
-*/

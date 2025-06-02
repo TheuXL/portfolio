@@ -3,6 +3,24 @@ document.addEventListener('DOMContentLoaded', () => {
     const mobileMenuBtn = document.getElementById('mobile-menu-toggle');
     const navMenu = document.getElementById('nav-menu');
     
+    // Fix for Portfolio link in the blog - ensure it works correctly
+    const portfolioLinks = document.querySelectorAll('a[href="../index.html"], a[href="../../index.html"]');
+    portfolioLinks.forEach(link => {
+        link.addEventListener('click', (e) => {
+            // Don't prevent default - let normal navigation happen
+            console.log('Portfolio link clicked, navigating to main site');
+            
+            // Add a small transition effect
+            document.body.style.opacity = '0.8';
+            document.body.style.transition = 'opacity 0.3s ease';
+            
+            // Reset opacity after a short delay (will only be visible if there's a delay in navigation)
+            setTimeout(() => {
+                document.body.style.opacity = '1';
+            }, 50);
+        });
+    });
+    
     if (mobileMenuBtn && navMenu) {
         mobileMenuBtn.addEventListener('click', () => {
             navMenu.classList.toggle('active');
@@ -22,7 +40,25 @@ document.addEventListener('DOMContentLoaded', () => {
         // Close mobile menu when clicking a link
         const navLinks = navMenu.querySelectorAll('a');
         navLinks.forEach(link => {
-            link.addEventListener('click', () => {
+            link.addEventListener('click', (e) => {
+                // Skip blocking default behavior for external links like portfolio links
+                if (link.getAttribute('href').includes('index.html')) {
+                    // Do not prevent default for portfolio/blog home links
+                    // Just close the menu and let the navigation happen naturally
+                    navMenu.classList.remove('active');
+                    const icon = mobileMenuBtn.querySelector('i');
+                    if (icon) {
+                        icon.classList.remove('fa-times');
+                        icon.classList.add('fa-bars');
+                    }
+                    return;
+                }
+                
+                // Only prevent default for internal anchors
+                if (link.getAttribute('href').startsWith('#')) {
+                    e.preventDefault();
+                }
+                
                 navMenu.classList.remove('active');
                 const icon = mobileMenuBtn.querySelector('i');
                 if (icon) {

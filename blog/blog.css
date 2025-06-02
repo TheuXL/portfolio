@@ -361,6 +361,12 @@
     header nav ul li a {
         font-size: 0.85rem;
     }
+
+    .portfolio-link {
+        justify-content: flex-start;
+        width: 100%;
+        padding: 12px 16px !important;
+    }
 }
 
 @media (max-width: 480px) {
@@ -406,4 +412,32 @@
 /* Adjust video size in featured post */
 .featured-post .post-media {
     min-height: 400px;
+}
+
+/* Enhanced Portfolio Link */
+.portfolio-link {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    color: var(--primary-color) !important;
+    font-weight: 600;
+    background-color: rgba(59, 130, 246, 0.1);
+    border-radius: 20px;
+    padding: 8px 16px !important;
+    transition: all 0.3s ease;
+}
+
+.portfolio-link i {
+    font-size: 0.9em;
+    transition: transform 0.3s ease;
+}
+
+.portfolio-link:hover {
+    background-color: rgba(59, 130, 246, 0.2);
+    transform: translateX(-5px);
+    color: var(--accent-color) !important;
+}
+
+.portfolio-link:hover i {
+    transform: translateX(-5px);
 } 
