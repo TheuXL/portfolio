@@ -540,6 +540,24 @@ document.addEventListener('DOMContentLoaded', () => {
             ],
             repoLink: '#',
             liveLink: '#'
+        },
+        'bernoulli-project': {
+            title: 'Bernoulli – Aplicativo Mobile Institucional',
+            image: 'imagens/bernoulli.png',
+            description: 'Engenheiro de Software Full-Stack atuando no desenvolvimento do aplicativo mobile da instituição. Responsável pelo desenvolvimento mobile, integrações com serviços Azure, autenticação com Azure AD B2C, design system próprio baseado em Gluestack, e documentação de componentes com Storybook, garantindo consistência visual e escalabilidade do produto.',
+            stack: 'React Native, Node.js, MongoDB, Azure DevOps, Azure AD B2C, Gluestack, Storybook, Design System, JavaScript, TypeScript',
+            highlights: [
+                'Desenvolvimento de aplicativo mobile institucional com React Native, garantindo performance e experiência de usuário otimizada',
+                'Implementação de autenticação segura com Azure AD B2C, incluindo SSO e gerenciamento de identidades corporativas',
+                'Criação de design system próprio baseado em Gluestack, assegurando consistência visual em toda a aplicação',
+                'Documentação completa de componentes utilizando Storybook, facilitando manutenção e colaboração da equipe',
+                'Integração com serviços Azure para infraestrutura cloud escalável e confiável',
+                'Utilização de Azure DevOps para CI/CD, garantindo entregas contínuas e qualidade do código',
+                'Desenvolvimento backend com Node.js e integração com MongoDB para persistência de dados',
+                'Implementação de arquitetura escalável que suporta crescimento da base de usuários da instituição'
+            ],
+            repoLink: '#',
+            liveLink: '#'
         }
         // Add data for other projects...
     };
