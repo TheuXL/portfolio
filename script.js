@@ -902,4 +902,93 @@ document.addEventListener('DOMContentLoaded', () => {
     // Apply tilt effect to resume cards
     addTiltEffect(document.querySelectorAll('.resume-card'));
 
+    // --- Certificate Modal Functions ---
+    const certificateModal = document.getElementById('certificate-modal');
+    const certificateModalImage = document.getElementById('certificate-modal-image');
+    const certificateModalTitle = document.getElementById('certificate-modal-title');
+    const certificateModalDescription = document.getElementById('certificate-modal-description');
+    const closeCertificateModalButton = document.getElementById('close-certificate-modal');
+    const certificateThumbnails = document.querySelectorAll('.certificate-thumbnail');
+    
+    // Descrições dos certificados
+    const certificateDescriptions = {
+        'Introdução à Linguagem Python': 'Aprendi os fundamentos da programação em Python, incluindo sintaxe básica, tipos de dados, estruturas de controle, funções e manipulação de arquivos. Desenvolvi habilidades para criar scripts e programas básicos, compreendendo a filosofia Python de código limpo e legível.',
+        'Estruturas de Dados em Python': 'Adquiri conhecimento profundo sobre estruturas de dados essenciais em Python: listas, tuplas, dicionários, sets e suas operações. Aprendi a escolher a estrutura adequada para cada situação, otimizando performance e legibilidade do código.',
+        'Estruturas de Dados em Python (Certificado)': 'Aprofundei meus conhecimentos em estruturas de dados avançadas, incluindo implementação de algoritmos de ordenação, busca e manipulação eficiente de dados complexos em Python.',
+        'Introdução à Análise de Dados com Python': 'Desenvolvi habilidades em análise de dados utilizando bibliotecas como Pandas e NumPy. Aprendi a importar, limpar, transformar e visualizar dados, criando insights valiosos a partir de datasets reais.',
+        'Tecnologias de Informação Aplicadas ao Direito': 'Explorei a interseção entre tecnologia e direito, aprendendo sobre sistemas jurídicos digitais, automação de processos legais e como a tecnologia pode otimizar a prática jurídica moderna.',
+        'Tecnologia, Direito Digital e Propriedade Intelectual': 'Adquiri conhecimento sobre propriedade intelectual no ambiente digital, direitos autorais, patentes de software e questões legais relacionadas ao desenvolvimento tecnológico e inovação.',
+        'Modelos de Gestão': 'Estudei diferentes modelos e teorias de gestão organizacional, aprendendo sobre liderança, planejamento estratégico, tomada de decisões e como aplicar esses conceitos em ambientes corporativos modernos.',
+        'Planejamento Estratégico': 'Desenvolvi habilidades em planejamento estratégico, aprendendo a criar visões de longo prazo, definir objetivos, analisar ambientes competitivos e implementar estratégias eficazes para o crescimento organizacional.',
+        'Empreendedorismo e Inovação': 'Aprendi sobre o processo empreendedor, desde a identificação de oportunidades até a criação e gestão de negócios inovadores. Desenvolvi habilidades em inovação, criatividade e resolução de problemas empresariais.',
+        'Negócios Internacionais': 'Adquiri conhecimento sobre comércio internacional, estratégias de internacionalização, barreiras comerciais, acordos internacionais e como empresas podem expandir seus negócios globalmente.',
+        'Planejamento e Desenvolvimento de Negócios Internacionais': 'Aprofundei meus conhecimentos em planejamento estratégico para negócios internacionais, aprendendo sobre análise de mercados globais, adaptação cultural, logística internacional e gestão de operações multinacionais.',
+        'Economia Política Mundial': 'Estudei as relações entre política e economia no contexto global, compreendendo como fatores políticos influenciam mercados, comércio internacional e desenvolvimento econômico de nações.',
+        'Direito Internacional': 'Adquiri conhecimento sobre normas e princípios do direito internacional, tratados, organizações internacionais e como o direito regula relações entre estados e entidades transnacionais.',
+        'Análise de Investimentos e Fontes de Financiamento': 'Desenvolvi habilidades em análise financeira de investimentos, aprendendo a avaliar viabilidade de projetos, calcular retornos, analisar riscos e identificar as melhores fontes de financiamento.',
+        'Capital de Giro e Análise Financeira': 'Aprendi sobre gestão de capital de giro, análise de fluxo de caixa, indicadores financeiros e como manter a saúde financeira de uma organização através de análises precisas e estratégicas.',
+        'Mercado de Capitais': 'Adquiri conhecimento sobre funcionamento dos mercados financeiros, instrumentos de investimento, análise de ações, títulos e como empresas podem acessar o mercado de capitais para financiamento.',
+        'Língua Inglesa': 'Desenvolvi proficiência em inglês, melhorando habilidades de comunicação escrita e oral, essenciais para colaboração em projetos internacionais e acesso a recursos técnicos globais.',
+        'Língua Espanhola': 'Adquiri competência em espanhol, ampliando minha capacidade de comunicação em um dos idiomas mais falados no mundo, facilitando colaborações e oportunidades em mercados hispânicos.',
+        'Direito Eletrônico': 'Estudei aspectos legais do ambiente digital, incluindo contratos eletrônicos, assinatura digital, proteção de dados, crimes cibernéticos e regulamentações que governam transações e atividades online.',
+        'Compliance e Governança Corporativa': 'Aprendi sobre práticas de compliance, governança corporativa, gestão de riscos regulatórios e como organizações podem garantir conformidade com leis e regulamentos, mantendo transparência e ética.',
+        'Administração e Planejamento de Serviço Social': 'Adquiri conhecimento sobre gestão de serviços sociais, planejamento de políticas públicas, gestão de projetos sociais e como administrar organizações do terceiro setor de forma eficiente.',
+        'Serviço Social e Terceiro Setor': 'Desenvolvi compreensão sobre o papel do terceiro setor na sociedade, aprendendo sobre gestão de ONGs, captação de recursos, impacto social e como organizações sem fins lucrativos podem maximizar seu impacto positivo.'
+    };
+    
+    // Open certificate modal when clicking on a thumbnail
+    certificateThumbnails.forEach(thumbnail => {
+        thumbnail.addEventListener('click', () => {
+            const certSrc = thumbnail.getAttribute('data-cert-src');
+            const certTitle = thumbnail.getAttribute('data-cert-title');
+            
+            certificateModalImage.src = certSrc;
+            certificateModalImage.alt = certTitle;
+            certificateModalTitle.textContent = certTitle;
+            
+            // Exibir descrição do certificado
+            const description = certificateDescriptions[certTitle] || 'Certificado de conclusão de curso que demonstra conhecimento e habilidades adquiridas na área.';
+            certificateModalDescription.textContent = description;
+            
+            // Limpar todas as classes de rotação primeiro
+            certificateModalImage.classList.remove('certificate-rotate', 'certificate-rotate-180', 'certificate-portrait');
+            
+            // Aplicar rotação se a miniatura tiver classe de rotação
+            if (thumbnail.classList.contains('certificate-rotate-180')) {
+                certificateModalImage.classList.add('certificate-rotate-180');
+            } else if (thumbnail.classList.contains('certificate-rotate')) {
+                certificateModalImage.classList.add('certificate-rotate');
+            } else if (thumbnail.classList.contains('certificate-portrait')) {
+                certificateModalImage.classList.add('certificate-portrait');
+            }
+            
+            certificateModal.style.display = 'block';
+            
+            // Prevent body scroll when modal is open
+            document.body.style.overflow = 'hidden';
+        });
+    });
+    
+    // Close certificate modal
+    closeCertificateModalButton.addEventListener('click', () => {
+        certificateModal.style.display = 'none';
+        document.body.style.overflow = 'auto';
+    });
+    
+    // Close modal if user clicks outside the modal content
+    window.addEventListener('click', (event) => {
+        if (event.target == certificateModal) {
+            certificateModal.style.display = 'none';
+            document.body.style.overflow = 'auto';
+        }
+    });
+    
+    // Close modal on 'Escape' key press
+    window.addEventListener('keydown', (event) => {
+        if (event.key === 'Escape' && certificateModal.style.display === 'block') {
+            certificateModal.style.display = 'none';
+            document.body.style.overflow = 'auto';
+        }
+    });
+
 }); // End DOMContentLoaded
