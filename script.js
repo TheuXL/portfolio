@@ -1,5 +1,5 @@
 // --- Modal Elements ---
-let modal, modalTitle, modalImage, modalDescription, modalStack, modalHighlights, modalRepoLink, modalLiveLink, closeModalButton, projectCards;
+let modal, modalTitle, modalImage, modalDescription, modalStack, modalHighlights, modalRepoLink, modalLiveLink, modalProjectLink, closeModalButton, projectCards;
 
 document.addEventListener('DOMContentLoaded', () => {
     console.log('DOM Content Loaded');
@@ -13,6 +13,7 @@ document.addEventListener('DOMContentLoaded', () => {
     modalHighlights = document.getElementById('modal-highlights');
     modalRepoLink = document.getElementById('modal-repo-link');
     modalLiveLink = document.getElementById('modal-live-link');
+    modalProjectLink = document.getElementById('modal-project-link');
     closeModalButton = document.querySelector('.close-button');
     projectCards = document.querySelectorAll('.project-card');
 
@@ -338,26 +339,128 @@ document.addEventListener('DOMContentLoaded', () => {
     // --- Tech Logo Animation Enhancement ---
     const techLogos = document.querySelectorAll('.tech-logo');
     
+    // Função para verificar se há sobreposição entre logos (baseado em posições percentuais)
+    function checkOverlap(logo, allLogos, margin = 8) {
+        const logoTop = parseFloat(logo.style.top) || 0;
+        const logoLeft = parseFloat(logo.style.left) || 0;
+        
+        for (let otherLogo of allLogos) {
+            if (otherLogo === logo || otherLogo.classList.contains('hidden')) continue;
+            
+            const otherTop = parseFloat(otherLogo.style.top) || 0;
+            const otherLeft = parseFloat(otherLogo.style.left) || 0;
+            
+            // Verifica sobreposição com margem (considerando que cada logo tem ~50px = ~5% da tela)
+            const topDiff = Math.abs(logoTop - otherTop);
+            const leftDiff = Math.abs(logoLeft - otherLeft);
+            
+            // Se a diferença for menor que a margem (em %), há sobreposição
+            if (topDiff < margin && leftDiff < margin) {
+                return true; // Há sobreposição
+            }
+        }
+        return false;
+    }
+    
+    // Função para verificar se está na área do card central
+    function isInCenterArea(left, top) {
+        const centerLeft = 30; // 30% da esquerda
+        const centerRight = 70; // 70% da esquerda
+        const centerTop = 25; // 25% do topo
+        const centerBottom = 75; // 75% do topo
+        
+        return left > centerLeft && left < centerRight && 
+               top > centerTop && top < centerBottom;
+    }
+    
+    // Função para obter uma posição válida
+    function getValidPosition(logo, allLogos, maxAttempts = 50) {
+        let attempts = 0;
+        let newTop, newLeft;
+        
+        do {
+            newTop = Math.floor(Math.random() * 80) + 5;
+            newLeft = Math.floor(Math.random() * 80) + 5;
+            attempts++;
+            
+            // Evita área central
+            if (isInCenterArea(newLeft, newTop)) {
+                continue;
+            }
+            
+            // Aplica temporariamente para verificar sobreposição
+            const oldTop = logo.style.top;
+            const oldLeft = logo.style.left;
+            logo.style.top = newTop + '%';
+            logo.style.left = newLeft + '%';
+            
+            const hasOverlap = checkOverlap(logo, allLogos);
+            
+            if (!hasOverlap) {
+                return { top: newTop, left: newLeft };
+            }
+            
+            // Restaura posição anterior se houver sobreposição
+            logo.style.top = oldTop;
+            logo.style.left = oldLeft;
+            
+        } while (attempts < maxAttempts);
+        
+        // Se não encontrou posição válida, retorna posição que evita pelo menos o centro
+        if (isInCenterArea(newLeft, newTop)) {
+            newLeft = newLeft < 50 ? 20 : 80;
+            newTop = newTop < 50 ? 15 : 85;
+        }
+        
+        return { top: newTop, left: newLeft };
+    }
+    
     // Função para posicionar os logos aleatoriamente
     function repositionLogos() {
+        // Primeiro, remove logos vazios
         techLogos.forEach(logo => {
-            // Verifica se o logo já tem uma posição, se não, atribui uma posição aleatória
-            if (!logo.style.top || !logo.style.left) {
-                logo.style.top = Math.floor(Math.random() * 80) + 5 + '%';
-                logo.style.left = Math.floor(Math.random() * 80) + 5 + '%';
+            const hasIcon = logo.querySelector('i');
+            const hasText = logo.querySelector('span');
+            const textContent = logo.textContent.trim();
+            const hasContent = hasIcon || hasText || textContent;
+            
+            if (!hasContent) {
+                logo.classList.add('hidden');
+                return;
+            } else {
+                logo.classList.remove('hidden');
             }
+        });
+        
+        // Filtra apenas logos visíveis
+        const visibleLogos = Array.from(techLogos).filter(logo => {
+            return !logo.classList.contains('hidden') && 
+                   (logo.querySelector('i') || logo.querySelector('span') || logo.textContent.trim());
+        });
+        
+        // Posiciona cada logo evitando sobreposição e área central
+        visibleLogos.forEach((logo, index) => {
+            // Verifica se o logo já tem uma posição válida
+            if (!logo.style.top || !logo.style.left) {
+                const position = getValidPosition(logo, visibleLogos);
+                logo.style.top = position.top + '%';
+                logo.style.left = position.left + '%';
+            }
+            
+            // Define z-index baseado no índice para evitar sobreposição visual
+            logo.style.zIndex = 1 + (index % 3); // z-index entre 1 e 3
             
             // Adiciona evento de hover para destacar logo
             logo.addEventListener('mouseenter', () => {
                 logo.style.opacity = '1';
                 logo.style.transform = 'scale(1.3)';
-                logo.style.zIndex = '10';
+                logo.style.zIndex = '5'; // Abaixo do hero-content
             });
             
             logo.addEventListener('mouseleave', () => {
                 logo.style.opacity = '0.8';
                 logo.style.transform = 'scale(1)';
-                logo.style.zIndex = '3';
+                logo.style.zIndex = 1 + (index % 3);
             });
             
             // Adiciona um movimento aleatório ocasional
@@ -372,10 +475,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     let newLeft = Math.max(3, Math.min(95, currentLeft + direction * Math.random() * 5));
                     
                     // Evitar a área central (onde está o conteúdo principal)
-                    const isCenterHorizontal = newLeft > 30 && newLeft < 70;
-                    const isCenterVertical = newTop > 25 && newTop < 75;
-                    
-                    if (isCenterHorizontal && isCenterVertical) {
+                    if (isInCenterArea(newLeft, newTop)) {
                         // Se estiver indo para o centro, inverte direção
                         if (currentLeft < 50) {
                             newLeft = Math.max(3, currentLeft - Math.random() * 8);
@@ -390,6 +490,18 @@ document.addEventListener('DOMContentLoaded', () => {
                         }
                     }
                     
+                    // Verifica sobreposição antes de mover
+                    const oldTop = logo.style.top;
+                    const oldLeft = logo.style.left;
+                    logo.style.top = newTop + '%';
+                    logo.style.left = newLeft + '%';
+                    
+                    if (checkOverlap(logo, visibleLogos) || isInCenterArea(newLeft, newTop)) {
+                        // Restaura posição se houver sobreposição ou estiver no centro
+                        logo.style.top = oldTop;
+                        logo.style.left = oldLeft;
+                    }
+                    
                     // Ajusta a velocidade de animação baseada no tamanho da tela
                     let animationDuration = '4s';
                     if (window.innerWidth <= 768) {
@@ -398,8 +510,6 @@ document.addEventListener('DOMContentLoaded', () => {
                     
                     // Anima a transição
                     logo.style.transition = `top ${animationDuration} ease-in-out, left ${animationDuration} ease-in-out`;
-                    logo.style.top = newTop + '%';
-                    logo.style.left = newLeft + '%';
                 }
             }, 6000); // Verifica a cada 6 segundos
         });
@@ -445,7 +555,8 @@ document.addEventListener('DOMContentLoaded', () => {
                 'Webhook inteligente para notificação em tempo real de clientes sobre mudanças de status em transações e processamentos financeiros'
             ],
             repoLink: '#',
-            liveLink: '#'
+            liveLink: '#',
+            projectLink: 'https://kingpaybr.com.br/'
         },
         'hello-app': {
             title: 'Hello – Assistente Virtual com IA (Android)',
@@ -475,7 +586,8 @@ document.addEventListener('DOMContentLoaded', () => {
                 'Experiência de usuário intuitiva e mais de 10.000 downloads.',
             ],
             repoLink: '#',
-            liveLink: '#'
+            liveLink: '#',
+            projectLink: 'https://play.google.com/store/apps/details?id=com.boralaa&hl=pt_BR'
         },
          'slot-machine': {
             title: 'Slot Machine Online',
@@ -539,7 +651,8 @@ document.addEventListener('DOMContentLoaded', () => {
                 'Coordenação de aprimoramentos de performance que reduziram o tempo de resposta em 40%, melhorando a experiência de agentes em campo'
             ],
             repoLink: '#',
-            liveLink: '#'
+            liveLink: '#',
+            projectLink: 'https://youxgroup.com.br/ina/'
         },
         'bernoulli-project': {
             title: 'Bernoulli – Aplicativo Mobile Institucional',
@@ -557,7 +670,8 @@ document.addEventListener('DOMContentLoaded', () => {
                 'Implementação de arquitetura escalável que suporta crescimento da base de usuários da instituição'
             ],
             repoLink: '#',
-            liveLink: '#'
+            liveLink: '#',
+            projectLink: 'https://www.bernoulli.com.br/'
         }
         // Add data for other projects...
     };
@@ -598,6 +712,13 @@ document.addEventListener('DOMContentLoaded', () => {
             modalLiveLink.style.display = 'inline-block';
         } else {
             modalLiveLink.style.display = 'none';
+        }
+
+        if (data.projectLink && data.projectLink !== '#') {
+            modalProjectLink.href = data.projectLink;
+            modalProjectLink.style.display = 'inline-block';
+        } else {
+            modalProjectLink.style.display = 'none';
         }
 
         modal.style.display = 'block';
@@ -921,10 +1042,10 @@ document.addEventListener('DOMContentLoaded', () => {
         'Modelos de Gestão': 'Estudei diferentes modelos e teorias de gestão organizacional, aprendendo sobre liderança, planejamento estratégico, tomada de decisões e como aplicar esses conceitos em ambientes corporativos modernos.',
         'Planejamento Estratégico': 'Desenvolvi habilidades em planejamento estratégico, aprendendo a criar visões de longo prazo, definir objetivos, analisar ambientes competitivos e implementar estratégias eficazes para o crescimento organizacional.',
         'Empreendedorismo e Inovação': 'Aprendi sobre o processo empreendedor, desde a identificação de oportunidades até a criação e gestão de negócios inovadores. Desenvolvi habilidades em inovação, criatividade e resolução de problemas empresariais.',
-        'Negócios Internacionais': 'Adquiri conhecimento sobre comércio internacional, estratégias de internacionalização, barreiras comerciais, acordos internacionais e como empresas podem expandir seus negócios globalmente.',
         'Planejamento e Desenvolvimento de Negócios Internacionais': 'Aprofundei meus conhecimentos em planejamento estratégico para negócios internacionais, aprendendo sobre análise de mercados globais, adaptação cultural, logística internacional e gestão de operações multinacionais.',
         'Economia Política Mundial': 'Estudei as relações entre política e economia no contexto global, compreendendo como fatores políticos influenciam mercados, comércio internacional e desenvolvimento econômico de nações.',
         'Direito Internacional': 'Adquiri conhecimento sobre normas e princípios do direito internacional, tratados, organizações internacionais e como o direito regula relações entre estados e entidades transnacionais.',
+        'Negócios Internacionais': 'Desenvolvi compreensão abrangente sobre negócios internacionais, aprendendo sobre estratégias de internacionalização, gestão de operações globais, análise de mercados internacionais e como empresas podem expandir e competir em escala global.',
         'Análise de Investimentos e Fontes de Financiamento': 'Desenvolvi habilidades em análise financeira de investimentos, aprendendo a avaliar viabilidade de projetos, calcular retornos, analisar riscos e identificar as melhores fontes de financiamento.',
         'Capital de Giro e Análise Financeira': 'Aprendi sobre gestão de capital de giro, análise de fluxo de caixa, indicadores financeiros e como manter a saúde financeira de uma organização através de análises precisas e estratégicas.',
         'Mercado de Capitais': 'Adquiri conhecimento sobre funcionamento dos mercados financeiros, instrumentos de investimento, análise de ações, títulos e como empresas podem acessar o mercado de capitais para financiamento.',

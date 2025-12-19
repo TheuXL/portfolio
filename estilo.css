@@ -133,22 +133,34 @@ header nav {
     max-width: 1100px;
     margin: auto;
     padding: 0 15px;
+    height: 100%;
 }
 
 header .logo {
     font-size: 1.4rem;
     font-weight: bold;
     color: var(--primary-color);
+    display: flex;
+    align-items: center;
+    height: 100%;
+    line-height: 1;
 }
 
 header nav ul {
     list-style: none;
     display: flex;
     flex-wrap: wrap;
+    align-items: center;
+    height: 100%;
+    margin: 0;
+    padding: 0;
 }
 
 header nav ul li {
     margin-left: 15px;
+    display: flex;
+    align-items: center;
+    height: 100%;
 }
 
 header nav ul li a {
@@ -156,6 +168,9 @@ header nav ul li a {
     padding: 5px 8px;
     transition: color 0.3s ease;
     font-size: 0.95rem;
+    display: flex;
+    align-items: center;
+    line-height: 1;
 }
 
 header nav ul li a:hover {
@@ -178,6 +193,139 @@ header nav ul li a.active {
     color: var(--white-color);
     border-color: transparent;
     box-shadow: 0 2px 8px rgba(59, 130, 246, 0.3);
+}
+
+/* Desktop Header Improvements - Only for screens wider than 768px */
+@media (min-width: 769px) {
+    header {
+        padding: 1rem 0;
+        box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+        border-bottom: 1px solid rgba(59, 130, 246, 0.2);
+    }
+    
+    header nav {
+        padding: 0 30px;
+        align-items: center;
+        height: auto;
+        justify-content: flex-start; /* Muda de space-between para flex-start */
+        gap: 60px; /* Espaço fixo entre logo e menu */
+    }
+    
+    header .logo {
+        font-size: 1.6rem;
+        transition: transform 0.3s ease, color 0.3s ease;
+        letter-spacing: -0.5px;
+        display: flex;
+        align-items: center;
+        height: auto;
+        line-height: 1.2;
+        margin-left: -200px; /* Move o logo mais para a esquerda */
+    }
+    
+    header .logo:hover {
+        transform: scale(1.05);
+        color: var(--accent-color);
+    }
+    
+    header nav ul {
+        gap: 5px;
+        align-items: center;
+        flex-wrap: nowrap;
+        height: auto;
+        margin: 0;
+        padding: 0;
+        flex: 1; /* Permite que o menu ocupe o espaço disponível */
+        justify-content: flex-start; 
+    }
+    
+    header nav ul li {
+        margin-left: 8px;
+        display: flex;
+        align-items: center;
+        height: auto;
+    }
+    
+    header nav ul li a {
+        padding: 8px 16px;
+        border-radius: 20px;
+        font-size: 0.95rem;
+        font-weight: 500;
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        position: relative;
+        overflow: hidden;
+        display: flex;
+        align-items: center;
+        line-height: 1.2;
+        white-space: nowrap;
+    }
+    
+    header nav ul li a::before {
+        content: '';
+        position: absolute;
+        bottom: 0;
+        left: 50%;
+        width: 0;
+        height: 2px;
+        background: var(--primary-gradient);
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        transform: translateX(-50%);
+    }
+    
+    header nav ul li a:hover {
+        color: var(--primary-color);
+        background-color: rgba(59, 130, 246, 0.1);
+        transform: translateY(-2px);
+    }
+    
+    header nav ul li a:hover::before {
+        width: 70%;
+    }
+    
+    header nav ul li a.active {
+        background: var(--primary-gradient);
+        color: var(--white-color);
+        border-radius: 20px;
+        padding: 8px 16px;
+        box-shadow: 0 4px 12px rgba(59, 130, 246, 0.4);
+        transform: translateY(-2px);
+    }
+    
+    header nav ul li a.active::before {
+        display: none;
+    }
+    
+    /* First and last child adjustments */
+    header nav ul li:first-child {
+        margin-left: 0; /* Remove margin extra do primeiro item */
+    }
+    
+    header nav ul li:last-child {
+        margin-right: 0;
+    }
+    
+    /* Blog link special styling for desktop */
+    header nav ul li a.blog-link {
+        background: linear-gradient(135deg, #2563eb, #3b82f6);
+        color: var(--white-color) !important;
+        font-weight: 600;
+        box-shadow: 0 2px 8px rgba(37, 99, 235, 0.3);
+    }
+    
+    header nav ul li a.blog-link:hover {
+        background: linear-gradient(135deg, #1d4ed8, #2563eb);
+        transform: translateY(-2px);
+        box-shadow: 0 4px 12px rgba(37, 99, 235, 0.4);
+    }
+    
+    header nav ul li a.blog-link::before {
+        display: none;
+    }
+    
+    /* Espaçamento maior entre ícones e texto nos menus */
+    header nav ul li a i {
+        margin-right: 12px;
+        font-size: 1rem;
+    }
 }
 
 /* Mobile Menu Button */
@@ -508,7 +656,7 @@ header nav ul li a.active {
 /* 3D Hero Content Container */
 .hero-content {
     position: relative;
-    z-index: 2;
+    z-index: 10;
     padding: 30px;
     background-color: rgba(0, 0, 0, 0.65);
     backdrop-filter: blur(8px);
@@ -1194,6 +1342,36 @@ header nav ul li a.active {
     border-color: transparent;
 }
 
+/* Botão "Sobre o Projeto" - cores fixas por tema */
+#modal-project-link {
+    border: 2px solid var(--primary-color);
+    color: var(--text-color) !important;
+}
+
+#modal-project-link:hover {
+    color: var(--text-color) !important;
+    background: var(--primary-gradient);
+    border-color: transparent;
+}
+
+/* Tema dark - texto branco */
+[data-theme="dark"] #modal-project-link {
+    color: #ffffff !important;
+}
+
+[data-theme="dark"] #modal-project-link:hover {
+    color: #ffffff !important;
+}
+
+/* Tema light - texto preto */
+[data-theme="light"] #modal-project-link {
+    color: #000000 !important;
+}
+
+[data-theme="light"] #modal-project-link:hover {
+    color: #000000 !important;
+}
+
 @keyframes modalFadeIn {
     from {
         opacity: 0;
@@ -1748,13 +1926,18 @@ footer {
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3), 0 0 10px rgba(30, 79, 255, 0.2);
     color: var(--primary-color);
     font-size: 24px;
-    z-index: 3; /* Colocado acima do conteúdo fosco */
+    z-index: 1; /* Abaixo do hero-content */
     animation: float 15s infinite linear;
     opacity: 0.8;
     transition: all 0.3s ease;
     pointer-events: auto;
     text-align: center;
     overflow: hidden;
+}
+
+/* Ocultar tech-logo vazios (sem ícone ou texto) - será tratado via JavaScript */
+.tech-logo.hidden {
+    display: none !important;
 }
 
 .tech-logo span {
@@ -1774,7 +1957,7 @@ footer {
     opacity: 1;
     transform: scale(1.3);
     box-shadow: 0 6px 15px rgba(0, 0, 0, 0.4), 0 0 20px rgba(30, 79, 255, 0.5);
-    z-index: 10;
+    z-index: 5; /* Abaixo do hero-content mesmo no hover */
 }
 
 /* Adapte o tamanho dos logos em dispositivos menores */
@@ -1812,6 +1995,17 @@ footer {
     max-width: 800px;
     box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
     border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+[data-theme="light"] .hero {
+    background: linear-gradient(135deg, #f0f4f8 0%, #e2e8f0 50%, #f8fafc 100%);
+    color: var(--light-color);
+}
+
+[data-theme="light"] .hero::after {
+    background: 
+        radial-gradient(circle at 20% 30%, rgba(37, 99, 235, 0.08), transparent 30%),
+        radial-gradient(circle at 80% 70%, rgba(59, 130, 246, 0.06), transparent 40%);
 }
 
 [data-theme="light"] .hero-content {
@@ -2428,6 +2622,8 @@ section h2 {
     display: flex;
     gap: 1rem;
     margin-bottom: 1.5rem;
+    align-items: flex-start;
+    min-width: 0;
 }
 
 .certificate-category > ul > li:last-child {
@@ -2442,6 +2638,8 @@ section h2 {
 
 .cert-info {
     flex: 1;
+    min-width: 0;
+    overflow: hidden;
 }
 
 .cert-info h4 {
@@ -2459,15 +2657,16 @@ section h2 {
     color: var(--text-secondary);
     font-size: 0.95rem;
     margin-bottom: 0.3rem;
-    padding-left: 1rem;
+    padding-left: 0;
     position: relative;
+    background: none !important;
+    border: none !important;
+    box-shadow: none !important;
+    list-style: none;
 }
 
 .cert-info ul li::before {
-    content: "•";
-    position: absolute;
-    left: 0;
-    color: var(--primary-color);
+    display: none;
 }
 
 /* Certificate Links Styles */
@@ -2501,6 +2700,10 @@ section h2 {
 .cert-info ul li {
     padding-left: 0;
     margin-bottom: 8px;
+    background: none !important;
+    border: none !important;
+    box-shadow: none !important;
+    padding: 0 !important;
 }
 
 .cert-info ul li::before {
@@ -2519,6 +2722,14 @@ section h2 {
     gap: 0.5rem;
     cursor: pointer;
     transition: all 0.3s ease;
+    width: 100%;
+    max-width: 100%;
+    min-width: 0;
+    background: none !important;
+    border: none !important;
+    box-shadow: none !important;
+    padding: 0 !important;
+    margin: 0 !important;
 }
 
 .cert-name {
@@ -2526,6 +2737,11 @@ section h2 {
     font-size: 0.95rem;
     font-weight: 500;
     margin-bottom: 0.5rem;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+    hyphens: auto;
+    max-width: 100%;
+    line-height: 1.4;
 }
 
 .certificate-thumbnail {
@@ -2540,6 +2756,7 @@ section h2 {
     border: 2px solid transparent;
     object-fit: contain;
     display: block;
+    flex-shrink: 0;
 }
 
 .certificate-thumbnail:hover {
