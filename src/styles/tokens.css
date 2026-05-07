@@ -1,0 +1,29 @@
+/* Tokens 60 / 30 / 10 — README: mesma hierarquia em dark e light */
+
+html {
+  color-scheme: dark;
+  --surface-60: #0c0e12;
+  --surface-30: #151922;
+  --surface-30-border: rgba(255, 255, 255, 0.06);
+  --accent-10: #2dd4bf;
+  --accent-10-muted: rgba(45, 212, 191, 0.14);
+  --foreground: #eceef2;
+  --muted: #9aa3af;
+  --foreground-subtle: #7d8795;
+}
+
+html[data-theme="light"] {
+  color-scheme: light;
+  --surface-60: #f6f7f9;
+  --surface-30: #eceef2;
+  --surface-30-border: rgba(15, 23, 42, 0.08);
+  --accent-10: #0d9488;
+  --accent-10-muted: rgba(13, 148, 136, 0.12);
+  --foreground: #0f1419;
+  --muted: #4b5565;
+  --foreground-subtle: #6b7280;
+}
+
+html[data-theme="dark"] {
+  color-scheme: dark;
+}

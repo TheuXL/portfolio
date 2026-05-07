@@ -1,0 +1,123 @@
+@import "tailwindcss";
+@import "../styles/tokens.css";
+
+@theme inline {
+  --color-surface-60: var(--surface-60);
+  --color-surface-30: var(--surface-30);
+  --color-accent: var(--accent-10);
+  --color-accent-soft: var(--accent-10-muted);
+  --color-fg: var(--foreground);
+  --color-muted: var(--muted);
+  --color-fg-subtle: var(--foreground-subtle);
+  --font-display: var(--font-display-family), ui-sans-serif, system-ui, sans-serif;
+  --font-body: var(--font-body-family), ui-sans-serif, system-ui, sans-serif;
+}
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    html {
+      scroll-behavior: auto;
+    }
+  }
+
+  body {
+    background-color: var(--surface-60);
+    color: var(--foreground);
+    font-family: var(--font-body-family), ui-sans-serif, system-ui, sans-serif;
+  }
+
+  ::selection {
+    background-color: var(--accent-10-muted);
+    color: var(--foreground);
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--accent-10);
+    outline-offset: 2px;
+  }
+}
+
+/* Prose / Markdown — alinhado aos tokens */
+.prose-custom h2 {
+  margin-top: 2rem;
+  margin-bottom: 0.75rem;
+  font-family: var(--font-display-family), ui-sans-serif, system-ui, sans-serif;
+  font-size: 1.35rem;
+  font-weight: 600;
+  letter-spacing: -0.02em;
+  color: var(--foreground);
+}
+
+.prose-custom h3 {
+  margin-top: 1.5rem;
+  margin-bottom: 0.5rem;
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: var(--foreground);
+}
+
+.prose-custom p {
+  margin-bottom: 1rem;
+  color: var(--foreground);
+}
+
+.prose-custom ul {
+  margin-bottom: 1rem;
+  padding-left: 1.25rem;
+  list-style: disc;
+  color: var(--muted);
+}
+
+.prose-custom li {
+  margin-bottom: 0.35rem;
+}
+
+.prose-custom a {
+  color: var(--accent-10);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.prose-custom strong {
+  color: var(--foreground);
+  font-weight: 600;
+}
+
+.prose-custom hr {
+  margin: 2rem 0;
+  border: 0;
+  border-top: 1px solid var(--surface-30-border);
+}
+
+.hero-mesh {
+  background-color: var(--surface-60);
+  background-image:
+    radial-gradient(
+      ellipse 100% 80% at 50% -30%,
+      var(--accent-10-muted),
+      transparent 55%
+    ),
+    linear-gradient(
+      to bottom,
+      color-mix(in oklab, var(--surface-60) 70%, transparent),
+      var(--surface-60)
+    ),
+    linear-gradient(
+      90deg,
+      color-mix(in oklab, var(--foreground) 4%, transparent) 1px,
+      transparent 1px
+    ),
+    linear-gradient(
+      color-mix(in oklab, var(--foreground) 4%, transparent) 1px,
+      transparent 1px
+    );
+  background-size:
+    100% 100%,
+    100% 100%,
+    min(100%, 52px) min(100%, 52px),
+    min(100%, 52px) min(100%, 52px);
+}
