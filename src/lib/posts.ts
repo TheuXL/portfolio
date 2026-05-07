@@ -7,6 +7,8 @@ export type PostFrontmatter = {
   date: string;
   category: string;
   description: string;
+  /** URLs de posts públicos — prévia (título/imagem) obtida via Open Graph no build */
+  linkedin_posts?: string[];
   /** Caminho relativo a `public/`, ex.: `blog/video/arquivo.mp4` */
   video?: string;
   /** Opcional: poster só se o arquivo existir em `public/` */

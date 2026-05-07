@@ -5,6 +5,7 @@ import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
 import type { Metadata } from "next";
 import { Prose } from "@/components/blog/Prose";
+import { LinkedInDigest } from "@/components/blog/LinkedInDigest";
 import { getPostBySlug, getPostSlugs } from "@/lib/posts";
 import { encodedPublicAsset } from "@/lib/media-url";
 
@@ -91,6 +92,10 @@ export default async function BlogPostPage(props: Props) {
           ) : null}
         </figure>
       )}
+
+      {frontmatter.linkedin_posts?.length ? (
+        <LinkedInDigest urls={frontmatter.linkedin_posts} />
+      ) : null}
 
       <Prose className="mt-12">
         <ReactMarkdown remarkPlugins={[remarkGfm]}>{content}</ReactMarkdown>
