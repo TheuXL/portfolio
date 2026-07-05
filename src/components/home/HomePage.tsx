@@ -135,7 +135,7 @@ export function HomePage() {
             </p>
             <h1 className="mt-4 font-(family-name:--font-display-family) text-4xl font-semibold leading-[1.08] tracking-tight text-fg sm:text-5xl lg:text-[3.25rem]">
               Olá, eu sou o{" "}
-              <span className="text-accent">Matheus Santos (TheuxDev)</span>
+              <span className="text-accent">Matheus Santos</span>
             </h1>
             <p className="mt-4 text-sm font-medium uppercase tracking-wide text-muted">
               Full-stack · IA · Flutter · Node · React · Python · AWS
