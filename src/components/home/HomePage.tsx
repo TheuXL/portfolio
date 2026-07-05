@@ -185,7 +185,7 @@ export function HomePage() {
           className="origin-top will-change-transform"
         >
           <p className="max-w-3xl text-base leading-relaxed text-muted">
-            Bem-vindo! Sou Matheus (TheuxDev), Engenheiro de Software Full-Stack
+            Bem-vindo! Sou Matheus, Engenheiro de Software Full-Stack
             movido pela curiosidade e pela busca incessante por inovação. Ao
             longo dos quase 4 anos de experiência, tenho focado na criação de
             projetos web e mobile que se destacam pela performance, usabilidade
