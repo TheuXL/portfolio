@@ -93,7 +93,9 @@
   border-top: 1px solid var(--surface-30-border);
 }
 
-.hero-mesh {
+.home-flow {
+  position: relative;
+  isolation: isolate;
   background-color: var(--surface-60);
   background-image:
     radial-gradient(

@@ -2,6 +2,7 @@
 
 import Image from "next/image";
 import Link from "next/link";
+import dynamic from "next/dynamic";
 import { useState } from "react";
 import { Section } from "@/components/layout/Section";
 import { Card } from "@/components/ui/Card";
@@ -14,6 +15,26 @@ import { CertificatesSection } from "@/components/home/CertificatesSection";
 import { ContactSection } from "@/components/home/ContactSection";
 import { PROJECTS } from "@/lib/projects";
 import { publicUrl } from "@/lib/paths";
+
+const HeroParticleField = dynamic(
+  () =>
+    import("@/components/three/HeroParticleField").then(
+      (m) => m.HeroParticleField,
+    ),
+  { ssr: false },
+);
+
+const SkillsTagCloud = dynamic(
+  () =>
+    import("@/components/three/SkillsTagCloud").then((m) => m.SkillsTagCloud),
+  { ssr: false },
+);
+
+const BlogNeuralViz = dynamic(
+  () =>
+    import("@/components/three/BlogNeuralViz").then((m) => m.BlogNeuralViz),
+  { ssr: false },
+);
 
 const SKILL_GROUPS = [
   {
@@ -121,11 +142,12 @@ export function HomePage() {
         onClose={() => setProjectKey(null)}
       />
 
-      <section
-        id="home"
-        className="hero-mesh relative overflow-hidden border-b border-(--surface-30-border)"
-      >
-        <div className="mx-auto grid max-w-6xl gap-10 px-4 py-16 sm:px-6 sm:py-24 lg:grid-cols-2 lg:items-center lg:gap-12 lg:px-8">
+      <div className="home-flow relative">
+        <HeroParticleField className="fixed inset-0 z-0" />
+
+        <div className="relative z-1">
+          <section id="home" className="relative scroll-mt-24">
+            <div className="mx-auto grid max-w-6xl gap-10 px-4 py-10 sm:px-6 sm:py-12 lg:grid-cols-2 lg:items-center lg:gap-12 lg:px-8">
           <div
             data-scroll-hero-zoom
             className="relative z-1 origin-top will-change-transform"
@@ -172,10 +194,11 @@ export function HomePage() {
               />
             </div>
           </div>
-        </div>
-      </section>
+            </div>
+          </section>
 
-      <Section
+          <Section
+        flow
         id="about"
         title="Sobre mim"
         description="Full-stack movido por curiosidade e inovação."
@@ -199,7 +222,15 @@ export function HomePage() {
         </div>
       </Section>
 
-      <Section id="skills" title="Habilidades técnicas">
+      <Section flow id="skills">
+        <div className="relative mb-8 h-[min(52vh,420px)] min-h-[300px] w-full">
+          <SkillsTagCloud className="absolute inset-0 h-full w-full" />
+        </div>
+        <header className="mb-8 max-w-2xl">
+          <h2 className="font-(family-name:--font-display-family) text-2xl font-semibold tracking-tight text-fg sm:text-3xl">
+            Habilidades técnicas
+          </h2>
+        </header>
         <div className="grid gap-6 md:grid-cols-2">
           {SKILL_GROUPS.map((g) => (
             <Card
@@ -240,7 +271,7 @@ export function HomePage() {
         </div>
       </Section>
 
-      <Section id="experience" title="Experiência">
+      <Section flow id="experience" title="Experiência">
         <ul className="space-y-4">
           {EXPERIENCE.map((line) => (
             <li
@@ -255,7 +286,7 @@ export function HomePage() {
         </ul>
       </Section>
 
-      <Section id="projects" title="Projetos em destaque">
+      <Section flow id="projects" title="Projetos em destaque">
         <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
           {PROJECTS.map((p) => (
             <button
@@ -293,7 +324,7 @@ export function HomePage() {
       </Section>
 
       <ScrollReveal>
-        <Section id="education" title="Formação">
+        <Section flow id="education" title="Formação">
           <ul className="space-y-3">
             {EDUCATION.map((line) => (
               <li
@@ -309,6 +340,7 @@ export function HomePage() {
 
       <ScrollReveal>
         <Section
+          flow
           id="resume-profile"
           title="Resumo profissional"
           description="Full-stack com foco em IA e arquiteturas escaláveis."
@@ -342,6 +374,7 @@ export function HomePage() {
 
       <ScrollReveal>
         <Section
+          flow
           id="resume"
           title="Currículo"
           description="Baixe a versão que melhor se alinha à sua necessidade."
@@ -376,13 +409,14 @@ export function HomePage() {
       </ScrollReveal>
 
       <ScrollReveal>
-        <Section id="contact" title="Contato">
+        <Section flow id="contact" title="Contato">
           <ContactSection />
         </Section>
       </ScrollReveal>
 
       <ScrollReveal>
         <Section
+          flow
           id="blog-preview"
           title="Blog"
           description="Artigos sobre tecnologia, desenvolvimento e inovação."
@@ -427,6 +461,9 @@ export function HomePage() {
               </div>
             </Card>
             <div className="flex flex-col justify-center gap-4 lg:col-span-2">
+              <div className="relative mb-2 h-[min(40vh,280px)] min-h-[220px] w-full">
+                <BlogNeuralViz className="absolute inset-0 h-full w-full" />
+              </div>
               <p className="text-sm text-muted">
                 Posts migrados para Markdown no mesmo design system (tema claro
                 / escuro, tipografia e componentes compartilhados).
@@ -441,6 +478,7 @@ export function HomePage() {
 
       <ScrollReveal>
         <Section
+          flow
           id="certificates"
           title="Certificados"
           description="Aprendizado contínuo e especializações."
@@ -448,6 +486,8 @@ export function HomePage() {
           <CertificatesSection />
         </Section>
       </ScrollReveal>
+        </div>
+      </div>
     </>
   );
 }
