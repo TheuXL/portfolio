@@ -123,3 +123,204 @@
     min(100%, 52px) min(100%, 52px),
     min(100%, 52px) min(100%, 52px);
 }
+
+html[data-theme="dark"] .inspiration-miniature-glow {
+  background: radial-gradient(
+    circle at center,
+    rgba(255, 255, 255, 0.96) 0%,
+    rgba(255, 255, 255, 0.82) 52%,
+    rgba(255, 255, 255, 0.28) 72%,
+    transparent 88%
+  );
+  box-shadow:
+    0 0 16px rgba(255, 255, 255, 0.42),
+    0 0 32px rgba(255, 255, 255, 0.18);
+}
+
+@keyframes apollo-rocket-flight {
+  0% {
+    left: 9%;
+    bottom: 24%;
+    transform: rotate(48deg) scale(0.52);
+    opacity: 0;
+  }
+  7% {
+    opacity: 0.78;
+  }
+  42% {
+    left: 47%;
+    bottom: 50%;
+    transform: rotate(22deg) translateX(-50%) scale(0.4);
+    opacity: 0.28;
+  }
+  88% {
+    opacity: 0.72;
+  }
+  100% {
+    left: 84%;
+    bottom: 26%;
+    transform: rotate(6deg) scale(0.48);
+    opacity: 0;
+  }
+}
+
+.apollo-rocket {
+  animation: apollo-rocket-flight 15s ease-in-out infinite;
+  will-change: left, bottom, transform, opacity;
+}
+
+.apollo-moon-pulse {
+  transform-origin: center;
+  animation: apollo-moon-glow 4s ease-in-out infinite;
+}
+
+.apollo-rocket-flame {
+  transform-origin: 24px 48px;
+  animation: apollo-flame-flicker 0.35s ease-in-out infinite alternate;
+}
+
+@keyframes apollo-moon-glow {
+  0%,
+  100% {
+    opacity: 0.88;
+    filter: drop-shadow(0 0 6px rgba(226, 232, 240, 0.25));
+  }
+  50% {
+    opacity: 1;
+    filter: drop-shadow(0 0 12px rgba(226, 232, 240, 0.4));
+  }
+}
+
+@keyframes apollo-flame-flicker {
+  from {
+    transform: scaleY(0.85);
+    opacity: 0.75;
+  }
+  to {
+    transform: scaleY(1.15);
+    opacity: 1;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .apollo-rocket,
+  .apollo-moon-pulse,
+  .apollo-rocket-flame,
+  .iron-man-armor,
+  .iron-man-reactor,
+  .iron-man-eyes,
+  .turing-rotor,
+  .turing-data-bit {
+    animation: none;
+  }
+
+  .apollo-rocket {
+    display: none;
+  }
+}
+
+.iron-man-armor {
+  transform-origin: center;
+  animation: iron-man-float 4.5s ease-in-out infinite;
+}
+
+.iron-man-reactor {
+  animation: iron-man-reactor-pulse 1.8s ease-in-out infinite;
+}
+
+.iron-man-eyes {
+  animation: iron-man-eyes-glow 2.4s ease-in-out infinite;
+}
+
+@keyframes iron-man-float {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-4px);
+  }
+}
+
+@keyframes iron-man-reactor-pulse {
+  0%,
+  100% {
+    fill: #ffeea3;
+    filter: drop-shadow(0 0 2px rgba(251, 191, 36, 0.4));
+  }
+  50% {
+    fill: #fde047;
+    filter: drop-shadow(0 0 10px rgba(250, 204, 21, 0.85));
+  }
+}
+
+@keyframes iron-man-eyes-glow {
+  0%,
+  100% {
+    opacity: 0.75;
+  }
+  50% {
+    opacity: 1;
+    filter: drop-shadow(0 0 4px rgba(147, 197, 253, 0.9));
+  }
+}
+
+.turing-rotor-a {
+  animation: turing-rotor-spin 9s linear infinite;
+}
+
+.turing-rotor-b {
+  animation: turing-rotor-spin 6s linear infinite reverse;
+}
+
+.turing-data-bit {
+  position: absolute;
+  top: 50%;
+  width: 6px;
+  height: 2px;
+  margin-top: -1px;
+  border-radius: 999px;
+  background: var(--accent-10);
+  opacity: 0;
+  animation: turing-data-flow 2.2s linear infinite;
+}
+
+.turing-data-bit-1 {
+  top: 42%;
+  animation-delay: 0s;
+}
+
+.turing-data-bit-2 {
+  animation-delay: 0.7s;
+}
+
+.turing-data-bit-3 {
+  top: 58%;
+  animation-delay: 1.4s;
+}
+
+@keyframes turing-rotor-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes turing-data-flow {
+  0% {
+    left: -10%;
+    opacity: 0;
+  }
+  15% {
+    opacity: 0.85;
+  }
+  85% {
+    opacity: 0.85;
+  }
+  100% {
+    left: 110%;
+    opacity: 0;
+  }
+}

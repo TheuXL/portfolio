@@ -25,6 +25,14 @@ const HeroParticleField = dynamic(
   { ssr: false },
 );
 
+const ApolloJourneyLayer = dynamic(
+  () =>
+    import("@/components/home/ApolloJourneyLayer").then(
+      (m) => m.ApolloJourneyLayer,
+    ),
+  { ssr: false },
+);
+
 const SkillsTagCloud = dynamic(
   () =>
     import("@/components/three/SkillsTagCloud").then((m) => m.SkillsTagCloud),
@@ -147,8 +155,9 @@ export function HomePage() {
         <HeroParticleField className="fixed inset-0 z-0" />
 
         <div className="relative z-1">
-          <section id="home" className="relative scroll-mt-24">
-            <div className="mx-auto grid max-w-6xl gap-10 px-4 py-10 sm:px-6 sm:py-12 lg:grid-cols-2 lg:items-center lg:gap-12 lg:px-8">
+          <section id="home" className="relative scroll-mt-24 overflow-hidden">
+            <ApolloJourneyLayer />
+            <div className="relative z-1 mx-auto grid max-w-6xl gap-10 px-4 py-10 sm:px-6 sm:py-12 lg:grid-cols-2 lg:items-center lg:gap-12 lg:px-8">
           <div
             data-scroll-hero-zoom
             className="relative z-1 origin-top will-change-transform"
@@ -227,6 +236,7 @@ export function HomePage() {
         <InspirationMiniature
           sceneId="newton-apple"
           size="sm"
+          quoteAlign="right"
           className="-top-[3.5rem] right-2 sm:-top-16 sm:right-10"
         />
       </div>
@@ -280,6 +290,14 @@ export function HomePage() {
         </div>
       </Section>
 
+      <div className="relative mx-auto h-0 max-w-6xl">
+        <InspirationMiniature
+          sceneId="clean-energy"
+          size="xs"
+          className="-top-10 left-2 sm:-top-12 sm:left-8"
+        />
+      </div>
+
       <Section flow id="experience" title="Experiência">
         <ul className="space-y-4">
           {EXPERIENCE.map((line) => (
@@ -295,7 +313,12 @@ export function HomePage() {
         </ul>
       </Section>
 
-      <Section flow id="projects" title="Projetos em destaque">
+      <Section flow id="projects" title="Projetos em destaque" className="relative">
+        <InspirationMiniature
+          sceneId="iron-man"
+          size="xs"
+          className="right-2 top-0 sm:right-6"
+        />
         <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
           {PROJECTS.map((p) => (
             <button
@@ -332,6 +355,15 @@ export function HomePage() {
         </div>
       </Section>
 
+      <div className="relative mx-auto h-0 max-w-6xl">
+        <InspirationMiniature
+          sceneId="elon-musk"
+          size="xs"
+          quoteAlign="right"
+          className="-top-8 right-2 sm:-top-10 sm:right-10"
+        />
+      </div>
+
       <ScrollReveal>
         <Section flow id="education" title="Formação">
           <ul className="space-y-3">
@@ -346,6 +378,16 @@ export function HomePage() {
           </ul>
         </Section>
       </ScrollReveal>
+
+      <div className="relative mx-auto h-0 max-w-6xl">
+        <InspirationMiniature
+          sceneId="stephen-hawking"
+          size="xs"
+          quoteWide
+          quoteAlign="right"
+          className="-top-8 right-2 sm:-top-10 sm:right-10"
+        />
+      </div>
 
       <ScrollReveal>
         <Section
@@ -417,6 +459,14 @@ export function HomePage() {
         </Section>
       </ScrollReveal>
 
+      <div className="relative mx-auto h-0 max-w-6xl">
+        <InspirationMiniature
+          sceneId="steve-jobs"
+          size="xs"
+          className="-top-8 left-2 sm:-top-10 sm:left-8"
+        />
+      </div>
+
       <ScrollReveal>
         <Section flow id="contact" title="Contato">
           <ContactSection />
@@ -429,7 +479,14 @@ export function HomePage() {
           id="blog-preview"
           title="Blog"
           description="Artigos sobre tecnologia, desenvolvimento e inovação."
+          className="relative"
         >
+          <InspirationMiniature
+            sceneId="alan-turing"
+            size="xs"
+            quoteAlign="right"
+            className="top-0 right-0 sm:top-2 sm:right-4"
+          />
           <div className="grid gap-8 lg:grid-cols-5 lg:items-stretch">
             <Card className="overflow-hidden lg:col-span-3">
               <div className="relative aspect-video bg-black">

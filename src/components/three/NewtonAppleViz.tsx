@@ -7,12 +7,16 @@ import { NewtonAppleCamera } from "@/components/three/NewtonAppleCamera";
 export function NewtonAppleViz({
   className = "",
   onTreeHover,
+  onHover,
   interactive = false,
 }: {
   className?: string;
   onTreeHover?: (hovered: boolean) => void;
+  onHover?: (hovered: boolean) => void;
   interactive?: boolean;
 }) {
+  const handleHover = onHover ?? onTreeHover;
+
   return (
     <ThreeCanvasShell
       className={className}
@@ -26,7 +30,7 @@ export function NewtonAppleViz({
       <directionalLight position={[-2, 2, 1]} intensity={0.35} color="#bbf7d0" />
       <pointLight position={[1.2, 1.2, 2]} intensity={0.4} color="#fef08a" />
       <NewtonAppleScene
-        onTreeHover={onTreeHover}
+        onTreeHover={handleHover}
         interactive={interactive}
       />
     </ThreeCanvasShell>

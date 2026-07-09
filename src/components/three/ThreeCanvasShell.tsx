@@ -42,7 +42,7 @@ export function ThreeCanvasShell({
 }) {
   const mounted = useClientMounted();
   const reduced = useReducedMotion3d();
-  const [webglOk, setWebglOk] = useState(true);
+  const [webglOk, setWebglOk] = useState(false);
 
   useEffect(() => {
     setWebglOk(canUseWebGL());
