@@ -8,6 +8,7 @@ import { Section } from "@/components/layout/Section";
 import { Card } from "@/components/ui/Card";
 import { buttonClass } from "@/components/ui/Button";
 import { HeroBadgeCard } from "@/components/home/HeroBadgeCard";
+import { InspirationMiniature } from "@/components/home/InspirationMiniature";
 import { HomeScrollEffects } from "@/components/home/HomeScrollEffects";
 import { ScrollReveal } from "@/components/home/ScrollReveal";
 import { ProjectDialog } from "@/components/home/ProjectDialog";
@@ -222,7 +223,15 @@ export function HomePage() {
         </div>
       </Section>
 
-      <Section flow id="skills">
+      <div className="relative mx-auto h-0 max-w-6xl">
+        <InspirationMiniature
+          sceneId="newton-apple"
+          size="sm"
+          className="-top-[3.5rem] right-2 sm:-top-16 sm:right-10"
+        />
+      </div>
+
+      <Section flow id="skills" className="relative">
         <div className="relative mb-8 h-[min(52vh,420px)] min-h-[300px] w-full">
           <SkillsTagCloud className="absolute inset-0 h-full w-full" />
         </div>

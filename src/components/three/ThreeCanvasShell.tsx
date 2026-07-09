@@ -29,12 +29,16 @@ export function ThreeCanvasShell({
   camera = { position: [0, 0, 5], fov: 50 },
   fallbackLabel,
   dpr = [1, 1.5],
+  shadows = false,
+  interactive = false,
 }: {
   children: ReactNode;
   className?: string;
   camera?: CameraProps;
   fallbackLabel?: string;
   dpr?: [number, number];
+  shadows?: boolean;
+  interactive?: boolean;
 }) {
   const mounted = useClientMounted();
   const reduced = useReducedMotion3d();
@@ -54,16 +58,24 @@ export function ThreeCanvasShell({
   }
 
   return (
-    <div className={`pointer-events-none ${className}`} aria-hidden>
+    <div
+      className={`${interactive ? "" : "pointer-events-none"} ${className}`}
+      aria-hidden={!interactive}
+    >
       <Canvas
         dpr={dpr}
+        shadows={shadows}
         gl={{
           antialias: true,
           alpha: true,
           powerPreference: "high-performance",
         }}
         camera={camera}
-        style={{ width: "100%", height: "100%" }}
+        style={{
+          width: "100%",
+          height: "100%",
+          pointerEvents: interactive ? "auto" : "none",
+        }}
         onCreated={({ gl }) => {
           gl.domElement.addEventListener("webglcontextlost", (e) => {
             e.preventDefault();
